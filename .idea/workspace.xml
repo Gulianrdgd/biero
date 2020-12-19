@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="789a7fd3-0b8a-463b-af55-3da823d5846b" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ElmWorkspace">
+    <elmProjects>
+      <project path="$PROJECT_DIR$/assets/elm.json" />
+    </elmProjects>
+    <settings elmCompilerPath="$PROJECT_DIR$/assets/node_modules/.bin/elm" elmFormatPath="null" elmTestPath="null" isElmFormatOnSaveEnabled="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="JavaScript File" />
+        <option value="Elixir Module" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1ljxxYUFqhyacoWaTPToj1CMEx7" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="org.elm.workspace.PROJECT_DISCOVERY" value="true" />
+    <property name="settings.editor.selected.configurable" value="org.elm.workspace.ui.ElmWorkspaceConfigurable" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/biero" />
+      <recent name="$PROJECT_DIR$/lib/biero_web/templates/dashboard" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/biero_web/channels" />
+      <recent name="$PROJECT_DIR$/lib/biero_web/templates/page" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Elixir Mix.Unnamed">
+    <configuration default="true" type="ELM_TEST_RUN_CONFIGURATION" factoryName="Elm Test configuration factory">
+      <ElmTestRunConfiguration elm-folder="$PROJECT_DIR$/assets" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unnamed" type="MixRunConfigurationType" factoryName="Elixir Mix" nameIsGenerated="true">
+      <mix>
+        <argument>phx.server</argument>
+      </mix>
+      <module-filters inherit-application-module-filters="true" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unnamed" type="org.elixir_lang.elixir.configuration.ConfigurationType" factoryName="Elixir" nameIsGenerated="true">
+      <elixir>
+        <argument>-S</argument>
+        <argument>mix</argument>
+        <argument>phx.server</argument>
+      </elixir>
+      <module-filters inherit-application-module-filters="true" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Elixir.Unnamed" />
+      <item itemvalue="Elixir Mix.Unnamed" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="789a7fd3-0b8a-463b-af55-3da823d5846b" name="Default Changelist" comment="" />
+      <created>1608124550876</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1608124550876</updated>
+      <workItem from="1608124551979" duration="3483000" />
+      <workItem from="1608134415429" duration="15566000" />
+      <workItem from="1608206079030" duration="4486000" />
+      <workItem from="1608211001522" duration="4394000" />
+      <workItem from="1608295096658" duration="12771000" />
+      <workItem from="1608318867462" duration="10130000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="836" y="216" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608136602927">
+      <screen x="0" y="36" width="1920" height="1044" />
+    </state>
+    <state x="836" y="216" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.36.1920.1044@0.36.1920.1044" timestamp="1608136602926" />
+    <state x="594" y="327" width="721" height="464" key="EditFileWatcherDialog" timestamp="1608152766161">
+      <screen x="0" y="36" width="1920" height="1044" />
+    </state>
+    <state x="594" y="327" width="721" height="464" key="EditFileWatcherDialog/0.36.1920.1044@0.36.1920.1044" timestamp="1608152766161" />
+    <state x="743" y="316" width="424" height="486" key="FileChooserDialogImpl" timestamp="1608140632927">
+      <screen x="0" y="36" width="1920" height="1044" />
+    </state>
+    <state x="743" y="316" width="424" height="486" key="FileChooserDialogImpl/0.36.1920.1044@0.36.1920.1044" timestamp="1608140632927" />
+    <state x="821" y="456" width="278" height="206" key="Github.ShareDialog" timestamp="1608383873538">
+      <screen x="0" y="36" width="1920" height="1044" />
+    </state>
+    <state x="821" y="456" width="278" height="206" key="Github.ShareDialog/0.36.1920.1044@0.36.1920.1044" timestamp="1608383873538" />
+    <state width="1870" height="267" key="GridCell.Tab.0.bottom" timestamp="1608322210843">
+      <screen x="0" y="36" width="1920" height="1044" />
+    </state>
+    <state width="1870" height="267" key="GridCell.Tab.0.bottom/0.36.1920.1044@0.36.1920.1044" timestamp="1608322210843" />
+    <state width="1870" height="267" key="GridCell.Tab.0.center" timestamp="1608322210840">
+      <screen x="0" y="36" width="1920" height="1044" />
+    </state>
+    <state width="1870" height="267" key="GridCell.Tab.0.center/0.36.1920.1044@0.36.1920.1044" timestamp="1608322210840" />
+    <state width="1870" height="267" key="GridCell.Tab.0.left" timestamp="1608322210837">
+      <screen x="0" y="36" width="1920" height="1044" />
+    </state>
+    <state width="1870" height="267" key="GridCell.Tab.0.left/0.36.1920.1044@0.36.1920.1044" timestamp="1608322210837" />
+    <state width="1870" height="267" key="GridCell.Tab.0.right" timestamp="1608322210842">
+      <screen x="0" y="36" width="1920" height="1044" />
+    </state>
+    <state width="1870" height="267" key="GridCell.Tab.0.right/0.36.1920.1044@0.36.1920.1044" timestamp="1608322210842" />
+    <state x="40" y="199" width="1467" height="732" key="SettingsEditor" timestamp="1608140584865">
+      <screen x="0" y="36" width="1920" height="1044" />
+    </state>
+    <state x="40" y="199" width="1467" height="732" key="SettingsEditor/0.36.1920.1044@0.36.1920.1044" timestamp="1608140584865" />
+    <state x="624" y="255" key="run.anything.popup" timestamp="1608212521711">
+      <screen x="0" y="36" width="1920" height="1044" />
+    </state>
+    <state x="624" y="255" key="run.anything.popup/0.36.1920.1044@0.36.1920.1044" timestamp="1608212521711" />
+    <state x="623" y="266" width="672" height="678" key="search.everywhere.popup" timestamp="1608377711464">
+      <screen x="0" y="36" width="1920" height="1044" />
+    </state>
+    <state x="623" y="266" width="672" height="678" key="search.everywhere.popup/0.36.1920.1044@0.36.1920.1044" timestamp="1608377711464" />
+  </component>
+</project>

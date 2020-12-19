@@ -1,0 +1,132 @@
+/* This file is for your main application css. */
+//@import "./phoenix.css";
+
+$purple: #8A4D76;
+$pink: #e62272;
+$brown: #757763;
+$beige-light: #D0D1CD;
+$beige-lighter: #EFF0EB;
+
+// Update Bulma's global variables
+$family-sans-serif: "Acre", sans-serif;
+$grey-dark: $brown;
+$grey-light: $beige-light;
+$primary: #e62272;
+$link: $pink;
+$widescreen-enabled: true;
+$fullhd-enabled: true;
+
+$footer-padding: 1rem 1.5rem 1rem;
+
+
+@import "../node_modules/bulma/bulma.sass";
+
+.form{
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  align-items: center;
+}
+
+.vertical{
+  float: left;
+  width: 100%;
+}
+
+.is-horizontal-center {
+  justify-content: center;
+}
+
+.is-vertical-center {
+  display: flex;
+  align-items: center;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.footnote{
+  position: fixed;
+  bottom: 10px;
+}
+
+.fade{
+  animation: fadein 1s;
+}
+.hidden{
+  opacity: 0;
+}
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.backArrow{
+  display: flex;
+  top: 6.5rem;
+  left: 3rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .backArrow{
+    display: block;
+    top: 1.5rem;
+    left: 1.5rem;
+  }
+}
+
+.center{
+  align-items: center;
+  align-content: center;
+  text-align: center;
+}
+
+.formField{
+  width: 20rem;
+  margin-bottom: 20px;
+}
+/* Alerts and form errors */
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.alert-info {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+.alert-warning {
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+}
+.alert-danger {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+.alert p {
+  margin-bottom: 0;
+}
+.alert:empty {
+  display: none;
+}
+.invalid-feedback {
+  color: #a94442;
+  display: block;
+  margin: -1rem 0 2rem;
+}
+
+html, body {
+  overflow: auto;
+  height: 100vh;
+}

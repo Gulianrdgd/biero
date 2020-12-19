@@ -1,0 +1,8 @@
+<script>
+    sessionStorage.setItem("token", "<%= @token %>");
+    sessionStorage.setItem("username", "<%= @username %>");
+</script>
+<div class="container noselect" style="margin-top: 0.1rem">
+    <div class="container" id="elm-admin"></div>
+</div>
+<script type="text/javascript" src="<%= Routes.static_url(@conn, "/js/admin.js") %>"></script>
