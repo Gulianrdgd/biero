@@ -52,6 +52,9 @@ main.ports.sendMessage.subscribe(async function(payload) {
         case "?getTable":
             channel.push('shout', {username: username,  body: "?getTable", token: message.token, table: message.table});
             break;
+        case "?sendChanges":
+            channel.push('shout', {username: username,  body: "?sendChanges", token: message.token, newUsers: message.newUsers, newTeams: message.newTeams});
+            break;
         default:
             break;
     }

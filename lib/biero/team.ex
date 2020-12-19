@@ -24,4 +24,12 @@ defmodule Biero.Team do
                        select: map(t, [:name, :users, :etappe]))
   end
 
+  def setTeam(changes) do
+    _side = Enum.map(changes, fn x ->
+      user = Team |> Ecto.Query.where(name: ^x["team"]) |> Repo.one
+      changeset = Team.changeset(user, %{name: x["team"], users: String.split(x["users"], ","), etappe: (x["etappe"] + user.etappe)})
+      Repo.update(changeset)
+    end)
+    _result = getTeams()
+  end
 end

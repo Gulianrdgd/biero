@@ -38,6 +38,23 @@ defmodule BieroWeb.RoomChannel do
           end
         end
         {:noreply, socket}
+      "?sendChanges" ->
+        "biero:" <> room = socket.topic
+        if (room == "admin" and Encryption.checkToken(payload["username"], payload["token"])) do
+          case [length(payload["newUsers"]), length(payload["newTeams"])] do
+            [0, 0] ->
+                      {:noreply, socket}
+            [x, 0] -> payload = %{"body" => "?newTable", "table" => User.setUser(payload["newUsers"]), "type" => "User"}
+                      broadcast socket, "shout", payload
+                      {:noreply, socket}
+            [0, x] -> payload = %{"body" => "?newTable", "table" => Team.setTeam(payload["newTeams"]), "type" => "Team"}
+                      broadcast socket, "shout", payload
+                      {:noreply, socket}
+            _ ->      payload = %{"body" => "?newTable", "tableTeam" => Team.setTeam(payload["newTeams"]), "tableUser" => User.setUser(payload["newUsers"]), "type" => "Both"}
+                      broadcast socket, "shout", payload
+                      {:noreply, socket}
+          end
+        end
       _ ->
         "biero:" <> room = socket.topic
         payload = Map.merge(payload, %{"room" => room})

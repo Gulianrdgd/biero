@@ -41,4 +41,21 @@ defmodule Biero.User do
                    select: map(u, [:username, :team, :hasAdmin]))
   end
 
+  def setUser(changes) do
+    _side = Enum.map(changes, fn x ->
+      user = Users |> Ecto.Query.where(username: ^x.username) |> Repo.one
+      changeset = Users.changeset(user, %{username: x.username, hasAdmin: boolStringToInt(x.isAdmin), team: x.team})
+      Repo.update(changeset)
+    end)
+    _result = getUsers()
+  end
+
+  def boolStringToInt(bool) do
+      case bool do
+        "T" -> true
+        "F" -> false
+        _ -> false
+      end
+  end
+
 end
