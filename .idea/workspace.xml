@@ -2,17 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="789a7fd3-0b8a-463b-af55-3da823d5846b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/css/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmi" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmi" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/admin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/socket.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/socket.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/src/Admin.elm" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/Admin.elm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/biero/team.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero/team.ex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/biero/user.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero/user.ex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/biero_web/channels/room_channel.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero_web/channels/room_channel.ex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/biero/encryption.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero/encryption.ex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/biero_web/templates/layout/app.html.eex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero_web/templates/layout/app.html.eex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/biero_web/templates/page/dash.html.eex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero_web/templates/page/dash.html.eex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/biero_web/templates/page/dashAdmin.html.eex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero_web/templates/page/dashAdmin.html.eex" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,6 +104,10 @@
       <workItem from="1608295096658" duration="12771000" />
       <workItem from="1608318867462" duration="15815000" />
       <workItem from="1608393020976" duration="13901000" />
+      <workItem from="1608465706718" duration="41000" />
+      <workItem from="1608671509744" duration="4000" />
+      <workItem from="1608743787639" duration="98000" />
+      <workItem from="1609147816297" duration="12233000" />
     </task>
     <servers />
   </component>
@@ -115,6 +119,10 @@
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
     <state x="836" y="216" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.36.1920.1044@0.36.1920.1044" timestamp="1608136602926" />
+    <state x="492" y="71" width="925" height="976" key="CommitChangelistDialog2" timestamp="1609147969975">
+      <screen x="0" y="36" width="1920" height="1044" />
+    </state>
+    <state x="492" y="71" width="925" height="976" key="CommitChangelistDialog2/0.36.1920.1044@0.36.1920.1044" timestamp="1609147969975" />
     <state x="594" y="327" width="721" height="464" key="EditFileWatcherDialog" timestamp="1608152766161">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
@@ -131,26 +139,30 @@
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
     <state x="734" y="213" width="442" height="692" key="Github.UntrackedFilesDialog/0.36.1920.1044@0.36.1920.1044" timestamp="1608383884431" />
-    <state width="1870" height="267" key="GridCell.Tab.0.bottom" timestamp="1608384874059">
+    <state width="1870" height="267" key="GridCell.Tab.0.bottom" timestamp="1609151256073">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
-    <state width="1870" height="267" key="GridCell.Tab.0.bottom/0.36.1920.1044@0.36.1920.1044" timestamp="1608384874059" />
-    <state width="1870" height="267" key="GridCell.Tab.0.center" timestamp="1608384874058">
+    <state width="1870" height="267" key="GridCell.Tab.0.bottom/0.36.1920.1044@0.36.1920.1044" timestamp="1609151256073" />
+    <state width="1870" height="267" key="GridCell.Tab.0.center" timestamp="1609151256071">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
-    <state width="1870" height="267" key="GridCell.Tab.0.center/0.36.1920.1044@0.36.1920.1044" timestamp="1608384874058" />
-    <state width="1870" height="267" key="GridCell.Tab.0.left" timestamp="1608384874057">
+    <state width="1870" height="267" key="GridCell.Tab.0.center/0.36.1920.1044@0.36.1920.1044" timestamp="1609151256071" />
+    <state width="1870" height="267" key="GridCell.Tab.0.left" timestamp="1609151256070">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
-    <state width="1870" height="267" key="GridCell.Tab.0.left/0.36.1920.1044@0.36.1920.1044" timestamp="1608384874057" />
-    <state width="1870" height="267" key="GridCell.Tab.0.right" timestamp="1608384874058">
+    <state width="1870" height="267" key="GridCell.Tab.0.left/0.36.1920.1044@0.36.1920.1044" timestamp="1609151256070" />
+    <state width="1870" height="267" key="GridCell.Tab.0.right" timestamp="1609151256072">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
-    <state width="1870" height="267" key="GridCell.Tab.0.right/0.36.1920.1044@0.36.1920.1044" timestamp="1608384874058" />
+    <state width="1870" height="267" key="GridCell.Tab.0.right/0.36.1920.1044@0.36.1920.1044" timestamp="1609151256072" />
     <state x="40" y="199" width="1467" height="732" key="SettingsEditor" timestamp="1608140584865">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
     <state x="40" y="199" width="1467" height="732" key="SettingsEditor/0.36.1920.1044@0.36.1920.1044" timestamp="1608140584865" />
+    <state x="652" y="269" width="615" height="578" key="find.popup" timestamp="1609151016553">
+      <screen x="0" y="36" width="1920" height="1044" />
+    </state>
+    <state x="652" y="269" width="615" height="578" key="find.popup/0.36.1920.1044@0.36.1920.1044" timestamp="1609151016553" />
     <state x="624" y="255" key="run.anything.popup" timestamp="1608212521711">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>

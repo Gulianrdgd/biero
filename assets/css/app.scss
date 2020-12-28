@@ -1,31 +1,16 @@
 /* This file is for your main application css. */
 //@import "./phoenix.css";
 
-$purple: #8A4D76;
-$pink: #e62272;
-$brown: #757763;
-$beige-light: #D0D1CD;
-$beige-lighter: #EFF0EB;
-
-// Update Bulma's global variables
-$family-sans-serif: "Acre", sans-serif;
-$grey-dark: $brown;
-$grey-light: $beige-light;
-$primary: #e62272;
-$link: $pink;
-$widescreen-enabled: true;
-$fullhd-enabled: true;
-
 $footer-padding: 1rem 1.5rem 1rem;
 
+$theme-colors: (
+        "primary":    #e62272,
+        "secondary":  purple,
+        "success":    green,
+);
 
-@import "../node_modules/bulma/bulma.sass";
-
-.form{
-  display: flex;
-  flex-direction: column;
-  width: 60%;
-  align-items: center;
+.logo{
+  max-width: 100%;
 }
 
 .vertical{
@@ -88,10 +73,6 @@ $footer-padding: 1rem 1.5rem 1rem;
   text-align: center;
 }
 
-.formField{
-  width: 20rem;
-  margin-bottom: 20px;
-}
 /* Alerts and form errors */
 .alert {
   padding: 15px;
@@ -120,13 +101,14 @@ $footer-padding: 1rem 1.5rem 1rem;
 .alert:empty {
   display: none;
 }
-.invalid-feedback {
-  color: #a94442;
-  display: block;
-  margin: -1rem 0 2rem;
+
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+.nav-tabs{
+  border-bottom: none;
 }
 
-html, body, main {
-  overflow: hidden;
-  height: 100%;
+.nav-item:hover{
+  backdrop-filter: brightness(30);
 }

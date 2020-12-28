@@ -1,11 +1,9 @@
 port module Admin exposing (..)
 
 import Browser
-import Browser.Events exposing (onKeyDown)
 import Dict exposing (Dict, get)
 import Html exposing (Attribute, Html, a, aside, button, div, img, input, li, nav, p, table, tbody, td, text, th, thead, tr, ul)
-import Html.Attributes exposing (attribute, class, href, placeholder, src, style, value)
-import Html.Attributes.Aria exposing (role)
+import Html.Attributes exposing (attribute, class, href, id, placeholder, src, style, value)
 import Html.Events exposing (keyCode, on, onClick, onInput)
 import Json.Decode exposing (decodeString, dict, errorToString, field, keyValuePairs, string)
 import Json.Encode as Encode
@@ -123,40 +121,41 @@ update msg model =
 
 view : RoundInfo -> Html Msg
 view model =
-    div [class "container fade columns", style "height" "100vh"] [
-        div [class "column is-one-fifth", style "background" "purple"] [
+    div [class "container bg-white", style "max-width" "1750px"] [
+    div [class "row", style "height" "100vh"] [
+        div [class "col-3 overflow-hidden bg-dark", style "max-width" "15%"] [
             div [] [
                 img [src "/images/logo.png", class "logo"] []
             ],
-        aside [class "menu"][
-          p [class "menu-label has-text-white"][text "Teams"],
-          ul [class "menu-list"] [
-            li [] [
-               a [class "has-text-white", onClick (Selected Teams Create)] [text "create"]
+        aside [class ""][
+          p [class "text-white mt-3"][text "Teams"],
+          ul [class "nav nav-tabs flex-column "] [
+            li [class "nav-item"] [
+               a [class "nav-link", onClick (Selected Teams Create)] [text "create"]
             ],
-            li [] [
-               a [class "has-text-white", onClick (Selected Teams Edit)] [text "edit"]
+            li [class "nav-item"] [
+               a [class "nav-link", onClick (Selected Teams Edit)] [text "edit"]
             ],
-            li [] [
-               a [class "has-text-white", onClick (Selected Teams Delete)] [text "remove"]
+            li [class "nav-item"] [
+               a [class "nav-link", onClick (Selected Teams Delete)] [text "remove"]
             ]
           ],
-            p [class "menu-label has-text-white"][text "Users"],
-            ul [class "menu-list"] [
-              li [] [
-                 a [class "has-text-white", onClick (Selected Users Create)] [text "create"]
+            p [class "text-white mt-3"][text "Users"],
+            ul [class "nav nav-tabs flex-column", style "text-decoration" "none"] [
+              li [class "nav-item rounded"] [
+                 a [class "nav-link", onClick (Selected Users Create)] [text "create"]
               ],
-              li [] [
-                 a [class "has-text-white", onClick (Selected Users Delete)] [text "remove"]
+              li [class "nav-item rounded"] [
+                 a [class "nav-link", onClick (Selected Users Delete)] [text "remove"]
               ]
             ]
         ]
         ],
-        div [class "column has-background-white"] [
+        div [class "col mt-4"] [
             createTable model model.tableData
         ]
+      ]
     ]
-
 
 createTable : RoundInfo -> List(Dict String String) -> Html Msg
 createTable model x = let
@@ -173,38 +172,40 @@ createTable model x = let
                         Teams -> case model.action of
                                     Create -> div [][]
                                     _ ->
-                                        div []
+                                        div [class "mt-5"]
                                               [
-                                                createButton model
-                                              , createTableTeams model acceptableTeams
+                                                div [class "mb-5"] [createButton model]
+                                              , div [] [createTableTeams model acceptableTeams]
                                               ]
 
                         Users -> case model.action of
                                     Create -> div [][]
                                     _ ->
-                                        div []
+                                        div [class "mt-5"]
                                               [
-                                              createButton model
-                                              ,createTableUser acceptableUsers
+                                              div [class "mb-5"] [createButton model]
+                                              ,div [] [createTableUser acceptableUsers]
                                               ]
 
                         None -> div [] []
                     ,
                     case model.tableData of
-                        [] ->  div [] [text "loading ..."]
+                        [] ->  div [] [text "Welcome to the dashboard page"]
                         _ -> tbody [] []
 
                 ]
 
 createButton : RoundInfo -> Html Msg
-createButton model = div [class "columns"] [
-                    div [class "column"] [
+createButton model = div [class "row"] [
+                    div [class "col"] [
                         input [ placeholder "Search by Name", onInput SetQuery ] []
                     ],
-                div [class "column"] [
-                    button [class "button", onClick (SendChanges model.changes)] [
-                     p [] [text "Apply changes "],
-                     p [class "has-text-success", style "margin-left" "10px"] [text (fromInt((length model.changes.teamList) + (length model.changes.userList)))]
+                div [class "col", style "text-align" "right"] [
+                    button [class "btn btn-dark", onClick (SendChanges model.changes)] [
+                    div [class "row center"] [
+                     p [class "col-auto mb-0"] [text "Apply changes"],
+                     p [class "col text-success mb-0"] [text (fromInt((length model.changes.teamList) + (length model.changes.userList)))]
+                     ]
                      ]
                 ]
                 ]
@@ -244,8 +245,10 @@ createTableTeams model lst = table [class "table"] [
                                                                ],
                                                             td [] [text (fromInt (x.etappe + (getChangeInt x.name model)))],
                                                             td [] [
-                                                                button [class "button", onClick (SetChange (changeTeam model.changes x.name "+" x.users))] [text "+"],
-                                                                button [class "button", onClick (SetChange (changeTeam model.changes x.name "-" x.users))] [text "-"]
+                                                                div [class "row"][
+                                                                button [class "col-md-3 btn btn-dark", onClick (SetChange (changeTeam model.changes x.name "+" (getChangeString x.name model)))] [text "+"],
+                                                                button [class "col-md-3 btn btn-dark", style "margin-left" "0.1rem", onClick (SetChange (changeTeam model.changes x.name "-" (getChangeString x.name model)))] [text "-"]
+                                                                ]
                                                             ]
                                                         ]) |> tbody []
                             ]

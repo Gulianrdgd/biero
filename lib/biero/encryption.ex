@@ -20,4 +20,5 @@ defmodule Biero.Encryption do
         _ -> false
     end
   end
+
 end
