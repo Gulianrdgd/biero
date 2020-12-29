@@ -3,6 +3,7 @@ defmodule Biero.Team do
   import Ecto.Changeset
   import Ecto.Query
   alias Biero.{Team, Repo}
+  require Logger
 
   schema "teams" do
     field :name, :string
@@ -26,9 +27,21 @@ defmodule Biero.Team do
 
   def setTeam(changes) do
     _side = Enum.map(changes, fn x ->
-      user = Team |> Ecto.Query.where(name: ^x["team"]) |> Repo.one
-      changeset = Team.changeset(user, %{name: x["team"], users: String.split(x["users"], ","), etappe: (x["etappe"] + user.etappe)})
-      Repo.update(changeset)
+      case Team |> Ecto.Query.where(name: ^x["team"]) |> Repo.exists? do
+        true ->
+            case x["delete"] do
+              true ->
+                _result = Team |> Ecto.Query.where(name: ^x["team"]) |> Repo.delete_all
+              _ ->
+                user = Team |> Ecto.Query.where(name: ^x["team"]) |> Repo.one
+                changeset = Team.changeset(user, %{name: x["team"], users: String.split(x["users"], ","), etappe: (x["etappe"] + user.etappe)})
+                Repo.update(changeset)
+            end
+        false ->
+            teamSet = %Team{}
+            changeset = Team.changeset(teamSet, %{name: x["team"], users: String.split(x["users"], ","), etappe: (x["etappe"])})
+            Repo.insert(changeset)
+      end
     end)
     _result = getTeams()
   end

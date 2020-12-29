@@ -6,7 +6,6 @@ $footer-padding: 1rem 1.5rem 1rem;
 $theme-colors: (
         "primary":    #e62272,
         "secondary":  purple,
-        "success":    green,
 );
 
 .logo{
@@ -16,6 +15,11 @@ $theme-colors: (
 .vertical{
   float: left;
   width: 100%;
+}
+
+.vcentered{
+  margin-top: auto !important;
+  margin-bottom: auto !important;
 }
 
 .is-horizontal-center {

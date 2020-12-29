@@ -2,14 +2,15 @@ port module Admin exposing (..)
 
 import Browser
 import Dict exposing (Dict, get)
-import Html exposing (Attribute, Html, a, aside, button, div, img, input, li, nav, p, table, tbody, td, text, th, thead, tr, ul)
-import Html.Attributes exposing (attribute, class, href, id, placeholder, src, style, value)
-import Html.Events exposing (keyCode, on, onClick, onInput)
+import Html exposing (Attribute, Html, a, aside, button, div, h1, h5, img, input, label, li, p, small, table, tbody, td, text, thead, tr, ul)
+import Html.Attributes exposing (attribute, class, placeholder, src, style, value)
+import Html.Events exposing (on, onClick, onInput)
 import Json.Decode exposing (decodeString, dict, errorToString, field, keyValuePairs, string)
 import Json.Encode as Encode
-import List exposing (length, map)
+import List exposing (filter, length, map)
 import List.Extra exposing (find)
 import String exposing (fromInt, toInt)
+import Toasty
 
 -- MAIN
 
@@ -32,7 +33,10 @@ type alias RoundInfo =
   , query : String
   , changes : Change
   , changedFieldTemp : String
+  , changedFieldTemp2 : String
+  , changeNameTemp : String
   , selectedRow : String
+  , toasties : Toasty.Stack String
   }
 
 type Selected =
@@ -49,19 +53,19 @@ selectedToString x = case x of
 type Action =
     Create
     | Edit
-    | Delete
     | Null
 
 type alias User =
   { username : String
   , isAdmin : String
-  , team : String
+  , delete : Bool
   }
 
 type alias Team =
   { name : String
   , users : String
   , etappe : Int
+  , delete : Bool
   }
 
 type alias Change =
@@ -69,9 +73,24 @@ type alias Change =
     , userList : List User
     }
 
+myConfig : Toasty.Config msg
+myConfig =
+    Toasty.config
+        |> Toasty.transitionOutDuration 700
+        |> Toasty.delay 8000
+        |> Toasty.containerAttrs containerAttrs
+
+containerAttrs =
+    [ style "max-width" "300px"
+    , style "position" "fixed"
+    , style "right" "0"
+    , style "top" "0"
+    , style "list-style-type" "none"
+    ]
+
 init : String -> RoundInfo
 init url =
-  RoundInfo "" "" [] None Null "" (Change [] []) "" ""
+  RoundInfo "" "" [] None Null "" (Change [] []) "" "" "" "" Toasty.initialState
 
 subscriptions : RoundInfo -> Sub Msg
 subscriptions model =
@@ -85,13 +104,16 @@ type Msg
   | SendChanges Change
   | SetChange Change
   | FocusOut String
-  | Input String
+  | FocusOutCreate String
+  | Input String String
   | SelectedRow String String
+  | DeleteFromChanges String String
+  | ToastyMsg (Toasty.Msg String)
 
 update : Msg -> RoundInfo -> ( RoundInfo, Cmd Msg )
 update msg model =
   case msg of
-    Selected s x -> ({ model | selected = s, action = x, tableData = []}, sendMessage (Encode.encode 0 (Encode.object[ ("message",Encode.string "?getTable")
+    Selected s x -> ({ model | selected = s, action = x, tableData = [],  changedFieldTemp = "", selectedRow = "", changeNameTemp = ""}, sendMessage (Encode.encode 0 (Encode.object[ ("message",Encode.string "?getTable")
                                                                                                                              , ( "username", Encode.string model.username )
                                                                                                                              , ( "token", Encode.string model.token)
                                                                                                                              , ( "table", Encode.string (selectedToString s))
@@ -106,47 +128,58 @@ update msg model =
     SetChange change ->
         ({model | changes = change} , Cmd.none)
     SendChanges change ->
-        ({model | changes = (Change [] [])}, sendMessage (Encode.encode 0 (Encode.object[   ("message", Encode.string "?sendChanges")
+        ({model | changes = (Change [] []), changedFieldTemp = "", changeNameTemp = ""}, sendMessage (Encode.encode 0 (Encode.object[   ("message", Encode.string "?sendChanges")
                                                                                           , ( "username", Encode.string model.username )
                                                                                           , ( "token", Encode.string model.token)
                                                                                           , ( "newTeams", Encode.list teamToObject change.teamList)
                                                                                           , ( "newUsers", Encode.list userToObject change.userList)
-                                                                                          ])))
-    Input s ->
-        ({model | changedFieldTemp = s}, Cmd.none)
+                                                                                          ]))) |> Toasty.addToast myConfig ToastyMsg "Change sent!"
+    Input kind s -> case kind of
+                    "createName" ->
+                         ({model | changeNameTemp = s}, Cmd.none)
+                    _ ->
+                        ({model | changedFieldTemp = s}, Cmd.none)
     FocusOut name ->
-            ({ model | changes = changeTeam model.changes name "none" model.changedFieldTemp, changedFieldTemp = "", selectedRow = ""}, Cmd.none)
+            ({ model | changes = changeTeam model.changes name "none" model.changedFieldTemp False, selectedRow = "", changedFieldTemp = "", changeNameTemp = ""}, Cmd.none)
+    FocusOutCreate name ->
+              ({ model | changes = changeTeam model.changes name "none" model.changedFieldTemp False, selectedRow = ""}, Cmd.none)
     SelectedRow name users ->
         ({model | selectedRow = name, changedFieldTemp = users}, Cmd.none)
+    ToastyMsg subMsg ->
+         Toasty.update myConfig ToastyMsg subMsg model
+    DeleteFromChanges kind name ->
+        ({model | changes = case kind of
+                                "Teams" -> changeTeam model.changes name "none" "" True
+                                _ -> model.changes
+               }, Cmd.none)
+
 
 view : RoundInfo -> Html Msg
 view model =
     div [class "container bg-white", style "max-width" "1750px"] [
+    Toasty.view myConfig renderToast ToastyMsg model.toasties,
     div [class "row", style "height" "100vh"] [
-        div [class "col-3 overflow-hidden bg-dark", style "max-width" "15%"] [
+        div [class "col-3 overflow-hidden bg-dark", style "max-width" "20%"] [
             div [] [
                 img [src "/images/logo.png", class "logo"] []
             ],
         aside [class ""][
-          p [class "text-white mt-3"][text "Teams"],
+          p [class "text-white mt-3 fs-4"][text "Teams"],
           ul [class "nav nav-tabs flex-column "] [
             li [class "nav-item"] [
-               a [class "nav-link", onClick (Selected Teams Create)] [text "create"]
+               a [class "nav-link fs-5", onClick (Selected Teams Create)] [text "create"]
             ],
             li [class "nav-item"] [
-               a [class "nav-link", onClick (Selected Teams Edit)] [text "edit"]
-            ],
-            li [class "nav-item"] [
-               a [class "nav-link", onClick (Selected Teams Delete)] [text "remove"]
+               a [class "nav-link fs-5", onClick (Selected Teams Edit)] [text "edit"]
             ]
           ],
-            p [class "text-white mt-3"][text "Users"],
+            p [class "text-white mt-3 fs-4"][text "Users"],
             ul [class "nav nav-tabs flex-column", style "text-decoration" "none"] [
               li [class "nav-item rounded"] [
-                 a [class "nav-link", onClick (Selected Users Create)] [text "create"]
+                 a [class "nav-link fs-5", onClick (Selected Users Create)] [text "Create"]
               ],
               li [class "nav-item rounded"] [
-                 a [class "nav-link", onClick (Selected Users Delete)] [text "remove"]
+                 a [class "nav-link fs-5", onClick (Selected Users Edit)] [text "Edit"]
               ]
             ]
         ]
@@ -156,6 +189,7 @@ view model =
         ]
       ]
     ]
+
 
 createTable : RoundInfo -> List(Dict String String) -> Html Msg
 createTable model x = let
@@ -170,12 +204,31 @@ createTable model x = let
                         in div [class "container", style "width" "80%"] [
                     case model.selected of
                         Teams -> case model.action of
-                                    Create -> div [][]
+                                    Create -> div [class ""][
+                                                        div [class "centered align-middle", style "margin-top" "10%"] [
+                                                        h1 [class "mb-3"] [text "Create a new team"],
+                                                          div [class "form-group"] [
+                                                            label [] [text "TeamName"],
+                                                            input [value model.changeNameTemp, onInput (Input "createName"), onFocusOut (FocusOutCreate model.changeNameTemp), class "form-control", placeholder "Enter team name"][]
+                                                          ],
+                                                          div [class "form-group"][
+                                                            label [][text "Players"],
+                                                            input [value model.changedFieldTemp, onInput (Input "createPlayers"), onFocusOut (FocusOutCreate model.changeNameTemp), class "form-control", placeholder "players"][],
+                                                            small [class "form-text text-muted"] [text "Please enter names with comma separation"]
+                                                          ],
+                                                          button [class "btn btn-primary mb-auto", onClick (SendChanges model.changes)] [text "Submit"]
+                                                        ], div [class "mt-5"] [
+                                                            h1 [class "mb-3"] [text "Current teams"],
+                                                            createTableTeamsCreate acceptableTeams]
+                                                    ]
                                     _ ->
-                                        div [class "mt-5"]
+                                        div [class ""]
                                               [
-                                                div [class "mb-5"] [createButton model]
-                                              , div [] [createTableTeams model acceptableTeams]
+                                                div [class "centered align-middle", style "margin-top" "10%"] [
+                                                    h1 [class "mb-3"] [text "Edit the teams"],
+                                                    div [class "mt-5 mb-5"] [createButton model],
+                                                    div [] [createTableTeams model acceptableTeams]
+                                              ]
                                               ]
 
                         Users -> case model.action of
@@ -184,7 +237,7 @@ createTable model x = let
                                         div [class "mt-5"]
                                               [
                                               div [class "mb-5"] [createButton model]
-                                              ,div [] [createTableUser acceptableUsers]
+                                              ,div [] [createTableUser model acceptableUsers]
                                               ]
 
                         None -> div [] []
@@ -210,18 +263,20 @@ createButton model = div [class "row"] [
                 ]
                 ]
 
-createTableUser : List User -> Html Msg
-createTableUser lst = table [class "table"] [
+createTableUser : RoundInfo -> List User -> Html Msg
+createTableUser model lst = table [class "table"] [
                                 thead [] [
                                     tr [] [
                                         td [] [text "Username"],
                                         td [] [text "IsAdmin"],
-                                        td [] [text "Team"]
+                                        td [] [text "Password"],
+                                        td [] [text "Password again"]
                                     ]
                                 ], (lst) |> map (\x -> tr [] [
                                                             td [] [text x.username],
                                                             td [] [text x.isAdmin],
-                                                            td [] [text x.team]
+                                                            td [] [input [value model.changedFieldTemp, onInput (Input "changePass"), onFocusOut (FocusOut model.changeNameTemp), class "form-control", placeholder "players"][]],
+                                                            td [] [input [value model.changedFieldTemp, onInput (Input "changePassVerify"), onFocusOut (FocusOut model.changeNameTemp), class "form-control", placeholder "players"][]]
                                                         ]) |> tbody []
                             ]
 
@@ -233,26 +288,44 @@ createTableTeams model lst = table [class "table"] [
                                         td [] [text "Teamname"],
                                         td [] [text "Users"],
                                         td [] [text "Etappe"],
-                                        td [] [text "Change Etappe"]
+                                        td [] [text "Change Etappe"],
+                                        td [] [text "Delete"]
                                     ]
                                 ], (lst) |> map (\x -> tr [] [
-                                                            td [] [text x.name],
+                                                            if length (filter (\el -> el.name == x.name && el.delete) model.changes.teamList) > 0  then td [style "text-decoration" "underline", style "text-decoration-color" "red"] [text x.name] else td [] [text x.name],
                                                             td [] [
                                                                 if model.selectedRow == x.name then
-                                                                    input [value (getUsers (model.changedFieldTemp) (getChangeString x.name model)), onInput Input, onFocusOut (FocusOut x.name)] []
+                                                                    input [value (getUsers (model.changedFieldTemp) (getChangeString x.name model)), onInput (Input "createPlayers"), onFocusOut (FocusOut x.name)] []
                                                                 else
                                                                    p [onClick (SelectedRow x.name x.users)] [text (getUsers x.users (getChangeString x.name model))]
                                                                ],
                                                             td [] [text (fromInt (x.etappe + (getChangeInt x.name model)))],
                                                             td [] [
                                                                 div [class "row"][
-                                                                button [class "col-md-3 btn btn-dark", onClick (SetChange (changeTeam model.changes x.name "+" (getChangeString x.name model)))] [text "+"],
-                                                                button [class "col-md-3 btn btn-dark", style "margin-left" "0.1rem", onClick (SetChange (changeTeam model.changes x.name "-" (getChangeString x.name model)))] [text "-"]
+                                                                button [class "col-md-3 btn btn-dark", onClick (SetChange (changeTeam model.changes x.name "+" (getChangeString x.name model) False))] [text "+"],
+                                                                button [class "col-md-3 btn btn-dark", style "margin-left" "0.1rem", onClick (SetChange (changeTeam model.changes x.name "-" (getChangeString x.name model) False))] [text "-"]
                                                                 ]
+                                                            ],
+                                                            td [] [
+                                                                button [attribute "type" "button", class "btn-close", attribute "aria-label" "Close", onClick (DeleteFromChanges "Teams" x.name)][]
                                                             ]
                                                         ]) |> tbody []
                             ]
 
+createTableTeamsCreate : List Team -> Html Msg
+createTableTeamsCreate lst = table [class "table"] [
+                                thead [] [
+                                    tr [] [
+                                        td [] [text "Teamname"],
+                                        td [] [text "Users"],
+                                        td [] [text "Etappe"]
+                                    ]
+                                ], (lst) |> map (\x -> tr [] [
+                                                            td [] [text x.name],
+                                                            td [] [text x.users],
+                                                            td [] [text (fromInt x.etappe)]
+                                                        ]) |> tbody []
+                            ]
 
 decode : String  -> List(String, String)
 decode json = case decodeString (keyValuePairs string) json of
@@ -287,11 +360,11 @@ getArrString str = case decodeString (field "table" (Json.Decode.list (dict stri
 
 
 tableUsers : List(Dict String String) -> List User
-tableUsers x = map (\y -> User (getStringFromDict y "username") (getStringFromDict y "hasAdmin") (getStringFromDict y "username")) x
+tableUsers x = map (\y -> User (getStringFromDict y "username") (getStringFromDict y "hasAdmin") False) x
 
 
 tableTeams : List(Dict String String) -> List Team
-tableTeams x = map (\y -> Team (getStringFromDict y "name") (getStringFromDict y "users") (stringToInt (getStringFromDict y "etappe"))) x
+tableTeams x = map (\y -> Team (getStringFromDict y "name") (getStringFromDict y "users") (stringToInt (getStringFromDict y "etappe")) False) x
 
 
 stringToInt : String -> Int
@@ -309,36 +382,49 @@ getStringFromDict dic key = case get key dic of
 teamToObject : Team -> Encode.Value
 teamToObject t = Encode.object[ ("team", Encode.string t.name)
                                 , ("users", Encode.string t.users)
-                                , ("etappe", Encode.int t.etappe)]
+                                , ("etappe", Encode.int t.etappe)
+                                , ("delete", Encode.bool t.delete)]
 
 
 userToObject : User -> Encode.Value
 userToObject u = Encode.object[ ("username", Encode.string u.username)
                               , ("isAdmin", Encode.string u.isAdmin)
-                              , ("team", Encode.string u.team)]
+                              , ("delete", Encode.bool u.delete)]
 
 
 onFocusOut : msg -> Attribute msg
 onFocusOut message =
   on "focusout" (Json.Decode.succeed message)
 
+
 onFocusIn : msg -> Attribute msg
 onFocusIn message =
   on "focusin" (Json.Decode.succeed message)
 
 
-changeTeam : Change -> String -> String -> String -> Change
-changeTeam changes team op newUsers = case find (\el -> el.name == team) changes.teamList of
+renderToast : String -> Html Msg
+renderToast toast =
+    div [class "container mt-3 fade"][
+        div [class "card bg-success"] [
+                div [class "card-body"] [
+                    h5 [class "card-title text-white text-center"] [text toast]
+                ]
+            ]
+        ]
+
+
+changeTeam : Change -> String -> String -> String -> Bool -> Change
+changeTeam changes team op newUsers delete = case find (\el -> el.name == team) changes.teamList of
                                 Just _ -> Change (map (\val -> if val.name == team then
                                                                             case op of
-                                                                               "+" -> Team val.name newUsers (val.etappe + 1)
-                                                                               "-" -> Team val.name newUsers (val.etappe - 1)
-                                                                               "none" -> Team val.name newUsers val.etappe
+                                                                               "+" -> Team val.name newUsers (val.etappe + 1) (val.delete || delete)
+                                                                               "-" -> Team val.name newUsers (val.etappe - 1) (val.delete || delete)
+                                                                               "none" -> Team val.name newUsers val.etappe (val.delete || delete)
                                                                                _ -> val
                                                        else val
                                                                                ) changes.teamList) changes.userList
                                 Nothing -> case op of
-                                            "+" -> Change (changes.teamList ++ [Team team newUsers 1]) changes.userList
-                                            "-" -> Change (changes.teamList ++ [Team team newUsers -1]) changes.userList
-                                            "none" -> Change (changes.teamList ++ [Team team newUsers 0]) changes.userList
+                                            "+" -> Change (changes.teamList ++ [Team team newUsers 1 delete]) changes.userList
+                                            "-" -> Change (changes.teamList ++ [Team team newUsers -1 delete]) changes.userList
+                                            "none" -> Change (changes.teamList ++ [Team team newUsers 0 delete]) changes.userList
                                             _ -> changes

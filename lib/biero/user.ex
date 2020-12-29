@@ -9,7 +9,6 @@ defmodule Biero.User do
     field :hasAdmin, :boolean, default: false
     field :username, :string
     field :password_hash, :string
-    field :team, :string
     field :token, :string
 
     timestamps()
@@ -18,8 +17,8 @@ defmodule Biero.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:username, :password_hash, :token, :hasAdmin, :team])
-    |> validate_required([:username, :password_hash, :token, :hasAdmin, :team])
+    |> cast(attrs, [:username, :password_hash, :token, :hasAdmin])
+    |> validate_required([:username, :password_hash, :token, :hasAdmin])
     |> validate_confirmation(:password_hash)
     |> validate_format(:username, ~r/^[a-z0-9][a-z0-9]+[a-z0-9]$/i)
     |> unique_constraint(:username)
@@ -38,13 +37,13 @@ defmodule Biero.User do
 
   def getUsers() do
     _result = Repo.all(from u in User,
-                   select: map(u, [:username, :team, :hasAdmin]))
+                   select: map(u, [:username, :hasAdmin]))
   end
 
   def setUser(changes) do
     _side = Enum.map(changes, fn x ->
       user = Users |> Ecto.Query.where(username: ^x.username) |> Repo.one
-      changeset = Users.changeset(user, %{username: x.username, hasAdmin: boolStringToInt(x.isAdmin), team: x.team})
+      changeset = Users.changeset(user, %{username: x.username, hasAdmin: boolStringToInt(x.isAdmin)})
       Repo.update(changeset)
     end)
     _result = getUsers()

@@ -60,7 +60,7 @@
                             <input id="password" class="form-control" name="password" type="password" placeholder="Password">
                         </div>
                         <div class="col mb-3 center">
-                            <button type="submit" class="btn btn-secondary mb-3">Confirm identity</button>
+                            <button type="submit" class="btn btn-dark mt-3">Confirm identity</button>
                         </div>
                     </form>
                 </div>

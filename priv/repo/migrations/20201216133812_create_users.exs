@@ -6,7 +6,6 @@ defmodule Biero.Repo.Migrations.CreateUsers do
       add :hasAdmin, :boolean, default: false
       add :username, :string
       add :password_hash, :string
-      add :team, :string
       add :token, :string
 
       timestamps()
