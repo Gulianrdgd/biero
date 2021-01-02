@@ -15,7 +15,7 @@ defmodule BieroWeb.UserController do
     username = "testTeam"
     users = ["Julian", "Nog een Keer Julian"]
     teamSet = %Team{}
-    changeset = Team.changeset(teamSet, %{name: username, users: users, etappe: 0})
+    changeset = Team.changeset(teamSet, %{name: username, users: users, etappe: 0, color: "#E62272"})
     Repo.insert(changeset)
   end
 end

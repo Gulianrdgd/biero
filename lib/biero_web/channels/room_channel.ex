@@ -19,6 +19,10 @@ defmodule BieroWeb.RoomChannel do
     end
   end
 
+  def join("biero:front", _params, socket) do
+    {:ok, socket}
+  end
+
   def handle_in("shout", payload, socket) do
     #    payload {"body" => "message", "name" => "username"}
     #    topic is vissible in socket
@@ -26,7 +30,6 @@ defmodule BieroWeb.RoomChannel do
     case payload["body"] do
       "?getTable" ->
         "biero:" <> room = socket.topic
-        Logger.info(room)
         if room == "admin" and Encryption.checkToken(payload["username"], payload["token"]) do
           case payload["table"] do
             "Teams" -> payload = %{"body" => "?newTable", "table" => Team.getTeams(), "type" =>"Teams"}
@@ -37,6 +40,10 @@ defmodule BieroWeb.RoomChannel do
                        broadcast socket, "shout", payload
           end
         end
+        if room == "front" do
+          payload = %{"body" => "?newTable", "table" => Team.getTeams(), "type" =>"Teams"}
+          broadcast socket, "shout", payload
+        end
         {:noreply, socket}
       "?sendChanges" ->
         "biero:" <> room = socket.topic
@@ -44,14 +51,17 @@ defmodule BieroWeb.RoomChannel do
           case [length(payload["newUsers"]), length(payload["newTeams"])] do
             [0, 0] ->
                       {:noreply, socket}
-            [x, 0] -> payload = %{"body" => "?newTable", "table" => User.setUser(payload["newUsers"]), "type" => "User"}
+            [_, 0] -> payload = %{"body" => "?newTable", "table" => User.setUser(payload["newUsers"]), "type" => "User"}
                       broadcast socket, "shout", payload
                       {:noreply, socket}
-            [0, x] -> payload = %{"body" => "?newTable", "table" => Team.setTeam(payload["newTeams"]), "type" => "Team"}
+            [0, _] -> payload = %{"body" => "?newTable", "table" => Team.setTeam(payload["newTeams"]), "type" => "Team"}
+                      BieroWeb.Endpoint.broadcast("biero:front", "shout", payload)
                       broadcast socket, "shout", payload
                       {:noreply, socket}
-            _ ->      payload = %{"body" => "?newTable", "tableTeam" => Team.setTeam(payload["newTeams"]), "tableUser" => User.setUser(payload["newUsers"]), "type" => "Both"}
-                      broadcast socket, "shout", payload
+            _ ->      payload2 = %{"body" => "?newTable", "tableTeam" => Team.setTeam(payload["newTeams"]), "tableUser" => User.setUser(payload["newUsers"]), "type" => "Both"}
+                      broadcast socket, "shout", payload2
+                      payloadFront = %{"body" => "?newTable", "table" => Team.setTeam(payload["newTeams"]), "type" => "Team"}
+                      BieroWeb.Endpoint.broadcast("biero:front", "shout", payloadFront)
                       {:noreply, socket}
           end
         end
@@ -63,9 +73,6 @@ defmodule BieroWeb.RoomChannel do
     end
   end
 
-  def join("biero:look", _params, socket) do
-    {:ok, socket}
-  end
 
   def leave(_user_id) do
     Logger.info("Leaving!")

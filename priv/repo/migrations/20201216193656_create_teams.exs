@@ -6,6 +6,7 @@ defmodule Biero.Repo.Migrations.CreateTeams do
       add :name, :string
       add :users, {:array, :string}
       add :etappe, :integer
+      add :color, :string
 
       timestamps()
     end

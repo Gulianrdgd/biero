@@ -1,17 +1,25 @@
 port module Main exposing (..)
 
+import Admin exposing (getStringFromDict)
 import Browser
-import Html exposing (Html, div, p, text)
-import Html.Attributes exposing (class)
-import Json.Decode exposing (decodeString, keyValuePairs, string)
-import List exposing (head, reverse)
-import Svg exposing (rect, svg)
-import Svg.Attributes exposing (height, rx, ry, viewBox, width, x, y)
+import Dict exposing (Dict)
+import Html exposing (Attribute, Html, div, img, p, text)
+import Html.Attributes exposing (attribute, class, height, src, style, width)
+import Http
+import Image exposing (Image)
+import Json.Decode exposing (decodeString, dict, errorToString, field, keyValuePairs, string)
+import List exposing (head, map)
+import String exposing (toInt)
+import Loading
+  exposing
+      ( LoaderType(..)
+      , defaultConfig
+      , render
+      )
 
 
--- MAIN
 
-main : Program { url : String } RoundInfo Msg
+main : Program { url : String } Model Msg
 main =
   Browser.element { init = \{ url } -> ( init url, Cmd.none ), update = update, subscriptions = subscriptions, view = view }
 
@@ -21,57 +29,96 @@ port sendMessage : String -> Cmd msg
 port messageReceiver : (String -> msg) -> Sub msg
 
 
-type alias RoundInfo =
+type alias Model  =
   { username : String
   , token : String
   , teamPos : List (Int, Int)
+  , selectedRow : String
+  , tableData : List(Team)
   }
 
+type alias Team =
+  { name : String
+  , users : String
+  , etappe : Int
+  , color : String
+  , cssColor : String
+  , posLeft : String
+  , posTop : String
+  }
 
-init : String -> RoundInfo
+init : String -> Model
 init url =
-  RoundInfo "" "" []
+  Model "" "" [] "" []
 
 
-subscriptions : RoundInfo -> Sub Msg
+subscriptions : Model -> Sub Msg
 subscriptions model =
     messageReceiver Recv
 
 
 type Msg
   = Recv String
+  | SelectedRow String
 
 
-update : Msg -> RoundInfo -> ( RoundInfo, Cmd Msg )
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
   case msg of
-    _ -> (model, Cmd.none)
+    SelectedRow name ->
+         ({model | selectedRow = name}, Cmd.none)
+    Recv message ->
+        case decode message of
+                      [("?username", user)] -> ({ model | username = user}, Cmd.none)
+                      [("?token", token)] -> ({ model | token = token}, Cmd.none)
+                      [("?color", token)] -> ({ model | token = token}, Cmd.none)
+                      [("no", "no")] -> ({ model | tableData = tableTeams (getArrString message)}, Cmd.none)
+                      _ -> (model, Cmd.none)
 
 
-view : RoundInfo -> Html Msg
+view : Model -> Html Msg
 view model =
-    div [class "container fade"] [
-        roundRect,
-        p [] [text "Hzo is dit wel zichtbaar????"]
+    div [class "container"] [
+        case model.tableData of
+            [] ->     div [ ]
+                          [ Loading.render
+                              DoubleBounce -- LoaderType
+                              { defaultConfig | color = "#333" } -- Config
+                              Loading.On -- LoadingState
+                          ]
+            x -> case (head x) of
+                    Just z -> div [] [
+                                      img [src "/images/world.svg", style "position" "absolute", style "top" "0", style "left" "0", style "width" "100%", style "height" "100vh"] [],
+                                      img [src "/images/biero.svg", style "position" "absolute", style "top" "0", style "left" "0", style "width" "100%", style "height" "100vh"] [],
+                                      map (\team ->
+                                            teamPerson team.cssColor team.posLeft team.posTop
+                                          ) model.tableData |> div []
+                                      ]
+                    _ -> div [] []
     ]
 
+teamPerson : String -> String -> String -> Html Msg
+teamPerson color posLeft posTop = div [] [
+                            img [class "player", src "images/body.png", style "position" "absolute", style "top" (posTop ++ "px"), style "left" (posLeft ++ "px")] [],
+                            img [class "player", src "images/color.png", style "position" "absolute", style "top" (posTop ++ "px"), style "left" (posLeft ++ "px"), style "filter" color] []
+                       ]
 
 decode : String  -> List(String, String)
 decode json = case decodeString (keyValuePairs string) json of
                 Ok x -> x
-                Err _ -> case decodeString (Json.Decode.list (Json.Decode.list (string))) json of
-                            Ok val -> List.map jsonArr val
-                            Err _ ->  [("no", "no")]
+                Err _ -> [("no", "no")]
 
+getArrString : String -> List (Dict String String)
+getArrString str = case decodeString (field "table" (Json.Decode.list (dict string))) str of
+                    Ok x -> x
+                    Err err -> [Dict.fromList [("err", errorToString err)]]
 
-jsonArr : List String -> (String, String)
-jsonArr lst = case head lst of
-                Just user -> case head (reverse lst) of
-                        Just val -> (user, val)
-                        _ -> ("no", "no")
-                _ -> ("no", "no")
+tableTeams : List(Dict String String) -> List Team
+tableTeams x = map (\y -> Team (getStringFromDict y "name") (getStringFromDict y "users") (stringToInt (getStringFromDict y "etappe")) (getStringFromDict y "color") (getStringFromDict y "cssColor") (getStringFromDict y "posLeft") (getStringFromDict y "posTop")) x
 
-roundRect =
-    svg
-      [ width "520", height "120", viewBox "200 0 120 120" ]
-      [ rect [ x "10", y "10", width "100", height "100", rx "15", ry "15" ] [] ]
+stringToInt : String -> Int
+stringToInt s = case toInt s of
+                 Just x -> x
+                 Nothing -> 0
+
+--svgFiltersToStyles : String -> List(Attribute msg)

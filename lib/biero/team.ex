@@ -9,6 +9,7 @@ defmodule Biero.Team do
     field :name, :string
     field :users, {:array, :string}
     field :etappe, :integer
+    field :color, :string
 
     timestamps()
   end
@@ -16,13 +17,13 @@ defmodule Biero.Team do
   @doc false
   def changeset(team, attrs) do
     team
-    |> cast(attrs, [:name, :users, :etappe])
-    |> validate_required([:name, :users, :etappe])
+    |> cast(attrs, [:name, :users, :etappe, :color])
+    |> validate_required([:name, :users, :etappe, :color])
   end
 
   def getTeams() do
     _result = Repo.all(from t in Team,
-                       select: map(t, [:name, :users, :etappe]))
+                       select: map(t, [:name, :users, :etappe, :color]))
   end
 
   def setTeam(changes) do
@@ -34,15 +35,26 @@ defmodule Biero.Team do
                 _result = Team |> Ecto.Query.where(name: ^x["team"]) |> Repo.delete_all
               _ ->
                 user = Team |> Ecto.Query.where(name: ^x["team"]) |> Repo.one
-                changeset = Team.changeset(user, %{name: x["team"], users: String.split(x["users"], ","), etappe: (x["etappe"] + user.etappe)})
-                Repo.update(changeset)
+                case x["color"] do
+                  "" ->  changeset = Team.changeset(user, %{name: x["team"], users: String.split(x["users"], ","), etappe: (x["etappe"] + user.etappe)})
+                           Repo.update(changeset)
+                  "none" -> changeset = Team.changeset(user, %{name: x["team"], users: String.split(x["users"], ","), etappe: (x["etappe"] + user.etappe), color: getRandomHex()})
+                            Repo.update(changeset)
+                  col -> changeset = Team.changeset(user, %{name: x["team"], users: String.split(x["users"], ","), etappe: (x["etappe"] + user.etappe), color: col})
+                           Repo.update(changeset)
+                end
             end
         false ->
             teamSet = %Team{}
-            changeset = Team.changeset(teamSet, %{name: x["team"], users: String.split(x["users"], ","), etappe: (x["etappe"])})
+            changeset = Team.changeset(teamSet, %{name: x["team"], users: String.split(x["users"], ","), etappe: (x["etappe"]), color: getRandomHex()})
             Repo.insert(changeset)
       end
     end)
     _result = getTeams()
   end
+
+  def getRandomHex() do
+    "#" <> Integer.to_charlist(:rand.uniform(255), 16) <> Integer.to_charlist(:rand.uniform(255), 16) <> Integer.to_charlist(:rand.uniform(255), 16)
+  end
+
 end

@@ -1,7 +1,9 @@
 port module Admin exposing (..)
 
 import Browser
+import Color exposing (Color, toRgba)
 import Dict exposing (Dict, get)
+import Hex
 import Html exposing (Attribute, Html, a, aside, button, div, h1, h5, img, input, label, li, p, small, table, tbody, td, text, thead, tr, ul)
 import Html.Attributes exposing (attribute, class, placeholder, src, style, value)
 import Html.Events exposing (on, onClick, onInput)
@@ -11,6 +13,7 @@ import List exposing (filter, length, map)
 import List.Extra exposing (find)
 import String exposing (fromInt, toInt)
 import Toasty
+import ColorPicker
 
 -- MAIN
 
@@ -37,6 +40,9 @@ type alias RoundInfo =
   , changeNameTemp : String
   , selectedRow : String
   , toasties : Toasty.Stack String
+  , colorPicker : ColorPicker.State
+  , colour : Color
+  , selectedWheel : String
   }
 
 type Selected =
@@ -66,6 +72,7 @@ type alias Team =
   , users : String
   , etappe : Int
   , delete : Bool
+  , color : String
   }
 
 type alias Change =
@@ -90,7 +97,7 @@ containerAttrs =
 
 init : String -> RoundInfo
 init url =
-  RoundInfo "" "" [] None Null "" (Change [] []) "" "" "" "" Toasty.initialState
+  RoundInfo "" "" [] None Null "" (Change [] []) "" "" "" "" Toasty.initialState ColorPicker.empty (Color.rgb 255 0 0) ""
 
 subscriptions : RoundInfo -> Sub Msg
 subscriptions model =
@@ -109,6 +116,8 @@ type Msg
   | SelectedRow String String
   | DeleteFromChanges String String
   | ToastyMsg (Toasty.Msg String)
+  | ColorPickerMsg ColorPicker.Msg
+  | GetColorWheel String
 
 update : Msg -> RoundInfo -> ( RoundInfo, Cmd Msg )
 update msg model =
@@ -126,7 +135,7 @@ update msg model =
     SetQuery newQuery ->
       ({ model | query = newQuery }, Cmd.none)
     SetChange change ->
-        ({model | changes = change} , Cmd.none)
+        ({model | changes = change, selectedWheel=""} , Cmd.none)
     SendChanges change ->
         ({model | changes = (Change [] []), changedFieldTemp = "", changeNameTemp = ""}, sendMessage (Encode.encode 0 (Encode.object[   ("message", Encode.string "?sendChanges")
                                                                                           , ( "username", Encode.string model.username )
@@ -140,18 +149,32 @@ update msg model =
                     _ ->
                         ({model | changedFieldTemp = s}, Cmd.none)
     FocusOut name ->
-            ({ model | changes = changeTeam model.changes name "none" model.changedFieldTemp False, selectedRow = "", changedFieldTemp = "", changeNameTemp = ""}, Cmd.none)
+            ({ model | changes = changeTeam model.changes name "none" model.changedFieldTemp "" False, selectedRow = "", changedFieldTemp = "", changeNameTemp = ""}, Cmd.none)
     FocusOutCreate name ->
-              ({ model | changes = changeTeam model.changes name "none" model.changedFieldTemp False, selectedRow = ""}, Cmd.none)
+              ({ model | changes = changeTeam model.changes name "none" model.changedFieldTemp "none" False, selectedRow = ""}, Cmd.none)
     SelectedRow name users ->
-        ({model | selectedRow = name, changedFieldTemp = users}, Cmd.none)
+        case getChangeString name model "users" of
+            "" ->
+                ({model | selectedRow = name, changedFieldTemp = users}, Cmd.none)
+            x ->
+                ({model | selectedRow = name, changedFieldTemp = x}, Cmd.none)
     ToastyMsg subMsg ->
          Toasty.update myConfig ToastyMsg subMsg model
     DeleteFromChanges kind name ->
         ({model | changes = case kind of
-                                "Teams" -> changeTeam model.changes name "none" "" True
+                                "Teams" -> changeTeam model.changes name "none" "" "" True
                                 _ -> model.changes
                }, Cmd.none)
+    ColorPickerMsg ms ->
+                let
+                    ( m, colour ) =
+                        ColorPicker.update ms model.colour model.colorPicker
+                in
+                    ({ model
+                        | colorPicker = m
+                        , colour = colour |> Maybe.withDefault model.colour
+                    }, Cmd.none)
+    GetColorWheel val -> ({model | selectedWheel = val }, Cmd.none)
 
 
 view : RoundInfo -> Html Msg
@@ -228,8 +251,7 @@ createTable model x = let
                                                     h1 [class "mb-3"] [text "Edit the teams"],
                                                     div [class "mt-5 mb-5"] [createButton model],
                                                     div [] [createTableTeams model acceptableTeams]
-                                              ]
-                                              ]
+                                              ]]
 
                         Users -> case model.action of
                                     Create -> div [][]
@@ -239,7 +261,6 @@ createTable model x = let
                                               div [class "mb-5"] [createButton model]
                                               ,div [] [createTableUser model acceptableUsers]
                                               ]
-
                         None -> div [] []
                     ,
                     case model.tableData of
@@ -289,21 +310,29 @@ createTableTeams model lst = table [class "table"] [
                                         td [] [text "Users"],
                                         td [] [text "Etappe"],
                                         td [] [text "Change Etappe"],
+                                        td [] [text "Change Color"],
                                         td [] [text "Delete"]
                                     ]
                                 ], (lst) |> map (\x -> tr [] [
                                                             if length (filter (\el -> el.name == x.name && el.delete) model.changes.teamList) > 0  then td [style "text-decoration" "underline", style "text-decoration-color" "red"] [text x.name] else td [] [text x.name],
                                                             td [] [
                                                                 if model.selectedRow == x.name then
-                                                                    input [value (getUsers (model.changedFieldTemp) (getChangeString x.name model)), onInput (Input "createPlayers"), onFocusOut (FocusOut x.name)] []
+                                                                    input [value model.changedFieldTemp, onInput (Input "createPlayers"), onFocusOut (FocusOut x.name)] []
                                                                 else
-                                                                   p [onClick (SelectedRow x.name x.users)] [text (getUsers x.users (getChangeString x.name model))]
+                                                                   p [onClick (SelectedRow x.name x.users)] [text (getChangedVal x.users (getChangeString x.name model "users"))]
                                                                ],
                                                             td [] [text (fromInt (x.etappe + (getChangeInt x.name model)))],
                                                             td [] [
-                                                                div [class "row"][
-                                                                button [class "col-md-3 btn btn-dark", onClick (SetChange (changeTeam model.changes x.name "+" (getChangeString x.name model) False))] [text "+"],
-                                                                button [class "col-md-3 btn btn-dark", style "margin-left" "0.1rem", onClick (SetChange (changeTeam model.changes x.name "-" (getChangeString x.name model) False))] [text "-"]
+                                                                div [class "row "][
+                                                                button [class "col-md-3 btn btn-dark", onClick (SetChange (changeTeam model.changes x.name "+" (getChangeString x.name model "users") x.color False))] [text "+"],
+                                                                button [class "col-md-3 btn btn-dark", style "margin-left" "0.1rem", onClick (SetChange (changeTeam model.changes x.name "-" (getChangeString x.name model "users") x.color False))] [text "-"]
+                                                                ]
+                                                            ],
+                                                            td [] [
+                                                                div [class "row justify-content-start"][
+                                                                    div [class "dot col-sm-1", style "background" (getChangedVal x.color (getChangeString x.name model "color")), style "--bs-gutter-x" "1rem"] [],
+                                                                    button [class "col-sm-5 btn btn-dark", onClick (GetColorWheel x.name)] [text "Choose color"],
+                                                                    if model.selectedWheel == x.name then colorModal model x.name x.users else div[] []
                                                                 ]
                                                             ],
                                                             td [] [
@@ -311,6 +340,19 @@ createTableTeams model lst = table [class "table"] [
                                                             ]
                                                         ]) |> tbody []
                             ]
+colorModal : RoundInfo -> String -> String -> Html Msg
+colorModal model name users =
+                div [class "modal", style "display" "block"][
+                  div [class "modal-dialog"][
+                    div [class "modal-content center", style "width" "50%"][
+                        div [style "margin-top" "1rem"] [
+                        ColorPicker.view model.colour model.colorPicker
+                         |> Html.map ColorPickerMsg
+                         ]
+                         , button [class "btn btn-dark", style "margin-top" "1rem", style "margin-bottom" "1rem", onClick (SetChange (changeTeam model.changes name "color" users (colorToHex model.colour) False))] [text "submit"]
+                    ]
+                  ]
+                ]
 
 createTableTeamsCreate : List Team -> Html Msg
 createTableTeamsCreate lst = table [class "table"] [
@@ -318,12 +360,14 @@ createTableTeamsCreate lst = table [class "table"] [
                                     tr [] [
                                         td [] [text "Teamname"],
                                         td [] [text "Users"],
-                                        td [] [text "Etappe"]
+                                        td [] [text "Etappe"],
+                                        td [] [text "Color"]
                                     ]
                                 ], (lst) |> map (\x -> tr [] [
                                                             td [] [text x.name],
                                                             td [] [text x.users],
-                                                            td [] [text (fromInt x.etappe)]
+                                                            td [] [text (fromInt x.etappe)],
+                                                            td [] [div [class "dot dotCreate", style "background" x.color] []]
                                                         ]) |> tbody []
                             ]
 
@@ -333,17 +377,20 @@ decode json = case decodeString (keyValuePairs string) json of
                 Err _ -> [("no", "no")]
 
 
-getUsers : String -> String -> String
-getUsers str1 str2 = case (str1, str2) of
+getChangedVal : String -> String -> String
+getChangedVal str1 str2 = case (str1, str2) of
                         ("", "") -> "None"
                         ("", x) -> x
                         (x, "") -> x
                         (_, y) -> y
 
 
-getChangeString : String -> RoundInfo -> String
-getChangeString name model = case find (\x -> x.name == name) model.changes.teamList of
-                                    Just y -> y.users
+getChangeString : String -> RoundInfo -> String -> String
+getChangeString name model attribute = case find (\x -> x.name == name) model.changes.teamList of
+                                    Just y -> case attribute of
+                                                "users" -> y.users
+                                                "color" -> y.color
+                                                _ -> "Wrong attribute!"
                                     Nothing -> ""
 
 
@@ -364,7 +411,7 @@ tableUsers x = map (\y -> User (getStringFromDict y "username") (getStringFromDi
 
 
 tableTeams : List(Dict String String) -> List Team
-tableTeams x = map (\y -> Team (getStringFromDict y "name") (getStringFromDict y "users") (stringToInt (getStringFromDict y "etappe")) False) x
+tableTeams x = map (\y -> Team (getStringFromDict y "name") (getStringFromDict y "users") (stringToInt (getStringFromDict y "etappe")) False (getStringFromDict y "color")) x
 
 
 stringToInt : String -> Int
@@ -383,7 +430,8 @@ teamToObject : Team -> Encode.Value
 teamToObject t = Encode.object[ ("team", Encode.string t.name)
                                 , ("users", Encode.string t.users)
                                 , ("etappe", Encode.int t.etappe)
-                                , ("delete", Encode.bool t.delete)]
+                                , ("delete", Encode.bool t.delete)
+                                , ("color", Encode.string t.color)]
 
 
 userToObject : User -> Encode.Value
@@ -413,18 +461,28 @@ renderToast toast =
         ]
 
 
-changeTeam : Change -> String -> String -> String -> Bool -> Change
-changeTeam changes team op newUsers delete = case find (\el -> el.name == team) changes.teamList of
+changeTeam : Change -> String -> String -> String -> String -> Bool -> Change
+changeTeam changes team op newUsers color delete = case find (\el -> el.name == team) changes.teamList of
                                 Just _ -> Change (map (\val -> if val.name == team then
                                                                             case op of
-                                                                               "+" -> Team val.name newUsers (val.etappe + 1) (val.delete || delete)
-                                                                               "-" -> Team val.name newUsers (val.etappe - 1) (val.delete || delete)
-                                                                               "none" -> Team val.name newUsers val.etappe (val.delete || delete)
+                                                                               "+" -> Team val.name newUsers (val.etappe + 1) (val.delete || delete) val.color
+                                                                               "-" -> Team val.name newUsers (val.etappe - 1) (val.delete || delete) val.color
+                                                                               "none" -> Team val.name newUsers val.etappe (val.delete || delete) val.color
+                                                                               "color" -> Team val.name val.users val.etappe (val.delete || delete) color
                                                                                _ -> val
                                                        else val
                                                                                ) changes.teamList) changes.userList
                                 Nothing -> case op of
-                                            "+" -> Change (changes.teamList ++ [Team team newUsers 1 delete]) changes.userList
-                                            "-" -> Change (changes.teamList ++ [Team team newUsers -1 delete]) changes.userList
-                                            "none" -> Change (changes.teamList ++ [Team team newUsers 0 delete]) changes.userList
+                                            "+" -> Change (changes.teamList ++ [Team team newUsers 1 delete color]) changes.userList
+                                            "-" -> Change (changes.teamList ++ [Team team newUsers -1 delete color]) changes.userList
+                                            "none" -> Change (changes.teamList ++ [Team team newUsers 0 delete color]) changes.userList
+                                            "color" -> Change (changes.teamList ++ [Team team newUsers 0 delete color]) changes.userList
                                             _ -> changes
+
+colorToHex : Color -> String
+colorToHex col = let {red, green, blue, alpha} = toRgba col in "#" ++ fixedSizeHex (Hex.toString (round (red * 255))) ++ fixedSizeHex (Hex.toString (round (green * 255))) ++ fixedSizeHex (Hex.toString (round (blue * 255)))
+
+fixedSizeHex : String -> String
+fixedSizeHex s = case String.length s of
+                    1 -> "0" ++ s
+                    _ -> s

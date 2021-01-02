@@ -2,21 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="789a7fd3-0b8a-463b-af55-3da823d5846b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/assets/js/hexToStyle.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/css/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmi" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmi" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Main.elmi" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Main.elmi" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Main.elmo" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Main.elmo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/i.dat" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/i.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/o.dat" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/o.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/elm.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/src/Admin.elm" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/Admin.elm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/src/Main.elm" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/Main.elm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/webpack.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/biero/team.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero/team.ex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/biero/user.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero/user.ex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/biero_web/templates/page/dash.html.eex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero_web/templates/page/dash.html.eex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/biero_web/templates/page/index.html.eex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero_web/templates/page/index.html.eex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/priv/repo/migrations/20201216133812_create_users.exs" beforeDir="false" afterPath="$PROJECT_DIR$/priv/repo/migrations/20201216133812_create_users.exs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/biero_web/channels/room_channel.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero_web/channels/room_channel.ex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/biero_web/controllers/user_controller.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero_web/controllers/user_controller.ex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/priv/repo/migrations/20201216193656_create_teams.exs" beforeDir="false" afterPath="$PROJECT_DIR$/priv/repo/migrations/20201216193656_create_teams.exs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,8 +37,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
-        <option value="JavaScript File" />
         <option value="Elixir Module" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -51,7 +55,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/elm.json" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="org.elm.workspace.PROJECT_DISCOVERY" value="true" />
     <property name="settings.editor.selected.configurable" value="org.elm.workspace.ui.ElmWorkspaceConfigurable" />
@@ -112,29 +116,49 @@
       <workItem from="1608671509744" duration="4000" />
       <workItem from="1608743787639" duration="98000" />
       <workItem from="1609147816297" duration="12233000" />
-      <workItem from="1609172484827" duration="17308000" />
+      <workItem from="1609172484827" duration="17368000" />
+      <workItem from="1609327994278" duration="173000" />
+      <workItem from="1609354455772" duration="9721000" />
+      <workItem from="1609431078098" duration="1412000" />
+      <workItem from="1609590373848" duration="9834000" />
+      <workItem from="1609610823893" duration="5984000" />
     </task>
+    <task id="LOCAL-00001" summary="Done with teams for now, now only the users and then we can do the front end">
+      <created>1609239286109</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1609239286109</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Done with teams for now, now only the users and then we can do the front end" />
+    <MESSAGE value="Added color picker and created base for player svg" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added color picker and created base for player svg" />
   </component>
   <component name="WindowStateProjectService">
     <state x="836" y="216" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608136602927">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
     <state x="836" y="216" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.36.1920.1044@0.36.1920.1044" timestamp="1608136602926" />
-    <state x="492" y="71" width="925" height="976" key="CommitChangelistDialog2" timestamp="1609147969975">
+    <state x="492" y="71" width="925" height="976" key="CommitChangelistDialog2" timestamp="1609365225365">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
-    <state x="492" y="71" width="925" height="976" key="CommitChangelistDialog2/0.36.1920.1044@0.36.1920.1044" timestamp="1609147969975" />
+    <state x="492" y="71" width="925" height="976" key="CommitChangelistDialog2/0.36.1920.1044/1920.0.1920.1080@0.36.1920.1044" timestamp="1609365225365" />
+    <state x="492" y="71" width="925" height="976" key="CommitChangelistDialog2/0.36.1920.1044@0.36.1920.1044" timestamp="1609239285850" />
     <state x="594" y="327" width="721" height="464" key="EditFileWatcherDialog" timestamp="1608152766161">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
     <state x="594" y="327" width="721" height="464" key="EditFileWatcherDialog/0.36.1920.1044@0.36.1920.1044" timestamp="1608152766161" />
-    <state x="743" y="316" width="424" height="486" key="FileChooserDialogImpl" timestamp="1608140632927">
+    <state x="743" y="316" width="424" height="486" key="FileChooserDialogImpl" timestamp="1609354480253">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
+    <state x="743" y="316" key="FileChooserDialogImpl/0.36.1920.1044/1920.0.1920.1080@0.36.1920.1044" timestamp="1609354480253" />
     <state x="743" y="316" width="424" height="486" key="FileChooserDialogImpl/0.36.1920.1044@0.36.1920.1044" timestamp="1608140632927" />
     <state x="821" y="456" width="278" height="206" key="Github.ShareDialog" timestamp="1608383873538">
       <screen x="0" y="36" width="1920" height="1044" />
@@ -144,26 +168,35 @@
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
     <state x="734" y="213" width="442" height="692" key="Github.UntrackedFilesDialog/0.36.1920.1044@0.36.1920.1044" timestamp="1608383884431" />
-    <state width="1870" height="267" key="GridCell.Tab.0.bottom" timestamp="1609238038747">
+    <state width="1870" height="265" key="GridCell.Tab.0.bottom" timestamp="1609614970585">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
-    <state width="1870" height="267" key="GridCell.Tab.0.bottom/0.36.1920.1044@0.36.1920.1044" timestamp="1609238038747" />
-    <state width="1870" height="267" key="GridCell.Tab.0.center" timestamp="1609238038745">
+    <state width="1870" height="265" key="GridCell.Tab.0.bottom/0.36.1920.1044/1920.0.1920.1080@0.36.1920.1044" timestamp="1609614970585" />
+    <state width="1870" height="267" key="GridCell.Tab.0.bottom/0.36.1920.1044@0.36.1920.1044" timestamp="1609433416065" />
+    <state width="1870" height="265" key="GridCell.Tab.0.center" timestamp="1609614970585">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
-    <state width="1870" height="267" key="GridCell.Tab.0.center/0.36.1920.1044@0.36.1920.1044" timestamp="1609238038745" />
-    <state width="1870" height="267" key="GridCell.Tab.0.left" timestamp="1609238038744">
+    <state width="1870" height="265" key="GridCell.Tab.0.center/0.36.1920.1044/1920.0.1920.1080@0.36.1920.1044" timestamp="1609614970585" />
+    <state width="1870" height="267" key="GridCell.Tab.0.center/0.36.1920.1044@0.36.1920.1044" timestamp="1609433416064" />
+    <state width="1870" height="265" key="GridCell.Tab.0.left" timestamp="1609614970585">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
-    <state width="1870" height="267" key="GridCell.Tab.0.left/0.36.1920.1044@0.36.1920.1044" timestamp="1609238038744" />
-    <state width="1870" height="267" key="GridCell.Tab.0.right" timestamp="1609238038746">
+    <state width="1870" height="265" key="GridCell.Tab.0.left/0.36.1920.1044/1920.0.1920.1080@0.36.1920.1044" timestamp="1609614970585" />
+    <state width="1870" height="267" key="GridCell.Tab.0.left/0.36.1920.1044@0.36.1920.1044" timestamp="1609433416064" />
+    <state width="1870" height="265" key="GridCell.Tab.0.right" timestamp="1609614970585">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
-    <state width="1870" height="267" key="GridCell.Tab.0.right/0.36.1920.1044@0.36.1920.1044" timestamp="1609238038746" />
+    <state width="1870" height="265" key="GridCell.Tab.0.right/0.36.1920.1044/1920.0.1920.1080@0.36.1920.1044" timestamp="1609614970585" />
+    <state width="1870" height="267" key="GridCell.Tab.0.right/0.36.1920.1044@0.36.1920.1044" timestamp="1609433416064" />
     <state x="40" y="199" width="1467" height="732" key="SettingsEditor" timestamp="1608140584865">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
     <state x="40" y="199" width="1467" height="732" key="SettingsEditor/0.36.1920.1044@0.36.1920.1044" timestamp="1608140584865" />
+    <state x="555" y="293" width="800" height="531" key="Vcs.Push.Dialog.v2" timestamp="1609365229302">
+      <screen x="0" y="36" width="1920" height="1044" />
+    </state>
+    <state x="555" y="293" key="Vcs.Push.Dialog.v2/0.36.1920.1044/1920.0.1920.1080@0.36.1920.1044" timestamp="1609365229302" />
+    <state x="555" y="293" width="800" height="531" key="Vcs.Push.Dialog.v2/0.36.1920.1044@0.36.1920.1044" timestamp="1609239295331" />
     <state x="652" y="269" width="615" height="578" key="find.popup" timestamp="1609198523826">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>

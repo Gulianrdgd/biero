@@ -41,6 +41,16 @@ $theme-colors: (
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
+.dot{
+  margin: 1rem;
+  border-radius: 50px;
+}
+
+.dotCreate{
+  width: 1rem;
+  height: 1rem;
+}
+
 .footnote{
   position: fixed;
   bottom: 10px;
@@ -75,6 +85,11 @@ $theme-colors: (
   align-items: center;
   align-content: center;
   text-align: center;
+}
+
+.player{
+  width: 100px;
+  height: 100px;
 }
 
 /* Alerts and form errors */
