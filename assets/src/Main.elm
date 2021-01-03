@@ -4,7 +4,7 @@ import Admin exposing (getStringFromDict)
 import Browser
 import Dict exposing (Dict)
 import Html exposing (Attribute, Html, div, img, p, text)
-import Html.Attributes exposing (attribute, class, height, src, style, width)
+import Html.Attributes exposing (attribute, class, height, id, src, style, width)
 import Http
 import Image exposing (Image)
 import Json.Decode exposing (decodeString, dict, errorToString, field, keyValuePairs, string)
@@ -80,7 +80,7 @@ view : Model -> Html Msg
 view model =
     div [class "container"] [
         case model.tableData of
-            [] ->     div [ ]
+            [] ->     div [class "center", style "margin" "auto"]
                           [ Loading.render
                               DoubleBounce -- LoaderType
                               { defaultConfig | color = "#333" } -- Config
@@ -89,7 +89,7 @@ view model =
             x -> case (head x) of
                     Just z -> div [] [
                                       img [src "/images/world.svg", style "position" "absolute", style "top" "0", style "left" "0", style "width" "100%", style "height" "100vh"] [],
-                                      img [src "/images/biero.svg", style "position" "absolute", style "top" "0", style "left" "0", style "width" "100%", style "height" "100vh"] [],
+                                      img [id "biero", src "/images/biero.svg", style "position" "absolute", style "top" "0", style "left" "0", style "width" "100%", style "height" "100vh"] [],
                                       map (\team ->
                                             teamPerson team.cssColor team.posLeft team.posTop
                                           ) model.tableData |> div []
@@ -120,5 +120,4 @@ stringToInt : String -> Int
 stringToInt s = case toInt s of
                  Just x -> x
                  Nothing -> 0
-
 --svgFiltersToStyles : String -> List(Attribute msg)

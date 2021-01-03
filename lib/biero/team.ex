@@ -54,7 +54,15 @@ defmodule Biero.Team do
   end
 
   def getRandomHex() do
-    "#" <> Integer.to_charlist(:rand.uniform(255), 16) <> Integer.to_charlist(:rand.uniform(255), 16) <> Integer.to_charlist(:rand.uniform(255), 16)
+    "#" <> fixedSize(:rand.uniform(255)) <> fixedSize(:rand.uniform(255)) <> fixedSize(:rand.uniform(255))
+  end
+
+  def fixedSize(number) do
+    if number < 10 do
+      "0" <> Integer.to_string(number, 16)
+    else
+      Integer.to_string(number, 16)
+    end
   end
 
 end
