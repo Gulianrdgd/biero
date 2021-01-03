@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="789a7fd3-0b8a-463b-af55-3da823d5846b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/css/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Main.elmo" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Main.elmo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/src/Main.elm" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/Main.elm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/biero/team.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero/team.ex" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +112,7 @@
       <workItem from="1609431078098" duration="1412000" />
       <workItem from="1609590373848" duration="9834000" />
       <workItem from="1609610823893" duration="6363000" />
-      <workItem from="1609667211593" duration="11550000" />
+      <workItem from="1609667211593" duration="14445000" />
     </task>
     <task id="LOCAL-00001" summary="Done with teams for now, now only the users and then we can do the front end">
       <created>1609239286109</created>
@@ -124,7 +128,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609617641250</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Scaling the players now finally works">
+      <created>1609678877978</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1609678877978</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -134,17 +145,18 @@
     <MESSAGE value="Done with teams for now, now only the users and then we can do the front end" />
     <MESSAGE value="Added color picker and created base for player svg" />
     <MESSAGE value="Front page POC is almost done. Only needs scoreboard and color mapping to teams. Backend still needs user creation and editing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Front page POC is almost done. Only needs scoreboard and color mapping to teams. Backend still needs user creation and editing" />
+    <MESSAGE value="Scaling the players now finally works" />
+    <option name="LAST_COMMIT_MESSAGE" value="Scaling the players now finally works" />
   </component>
   <component name="WindowStateProjectService">
     <state x="836" y="216" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608136602927">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
     <state x="836" y="216" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.36.1920.1044@0.36.1920.1044" timestamp="1608136602926" />
-    <state x="492" y="71" width="925" height="976" key="CommitChangelistDialog2" timestamp="1609617640985">
+    <state x="492" y="71" width="925" height="976" key="CommitChangelistDialog2" timestamp="1609678877766">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
-    <state x="492" y="71" width="925" height="976" key="CommitChangelistDialog2/0.36.1920.1044/1920.0.1920.1080@0.36.1920.1044" timestamp="1609617640985" />
+    <state x="492" y="71" width="925" height="976" key="CommitChangelistDialog2/0.36.1920.1044/1920.0.1920.1080@0.36.1920.1044" timestamp="1609678877766" />
     <state x="492" y="71" width="925" height="976" key="CommitChangelistDialog2/0.36.1920.1044@0.36.1920.1044" timestamp="1609239285850" />
     <state x="594" y="327" width="721" height="464" key="EditFileWatcherDialog" timestamp="1608152766161">
       <screen x="0" y="36" width="1920" height="1044" />
@@ -187,10 +199,10 @@
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
     <state x="40" y="199" width="1467" height="732" key="SettingsEditor/0.36.1920.1044@0.36.1920.1044" timestamp="1608140584865" />
-    <state x="555" y="293" width="800" height="531" key="Vcs.Push.Dialog.v2" timestamp="1609617649753">
+    <state x="555" y="293" width="800" height="531" key="Vcs.Push.Dialog.v2" timestamp="1609678886347">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
-    <state x="555" y="293" width="800" height="531" key="Vcs.Push.Dialog.v2/0.36.1920.1044/1920.0.1920.1080@0.36.1920.1044" timestamp="1609617649753" />
+    <state x="555" y="293" width="800" height="531" key="Vcs.Push.Dialog.v2/0.36.1920.1044/1920.0.1920.1080@0.36.1920.1044" timestamp="1609678886347" />
     <state x="555" y="293" width="800" height="531" key="Vcs.Push.Dialog.v2/0.36.1920.1044@0.36.1920.1044" timestamp="1609239295331" />
     <state x="738" y="470" width="433" height="178" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1609617519497">
       <screen x="0" y="36" width="1920" height="1044" />
@@ -204,9 +216,10 @@
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
     <state x="624" y="255" key="run.anything.popup/0.36.1920.1044@0.36.1920.1044" timestamp="1608212521711" />
-    <state x="623" y="266" width="672" height="678" key="search.everywhere.popup" timestamp="1608405976724">
+    <state x="623" y="266" width="672" height="678" key="search.everywhere.popup" timestamp="1609686011033">
       <screen x="0" y="36" width="1920" height="1044" />
     </state>
+    <state x="623" y="266" width="672" height="678" key="search.everywhere.popup/0.36.1920.1044/1920.0.1920.1080@0.36.1920.1044" timestamp="1609686011033" />
     <state x="623" y="266" width="672" height="678" key="search.everywhere.popup/0.36.1920.1044@0.36.1920.1044" timestamp="1608405976724" />
   </component>
 </project>

@@ -3,13 +3,13 @@ port module Main exposing (..)
 import Admin exposing (getStringFromDict)
 import Browser
 import Dict exposing (Dict)
-import Html exposing (Attribute, Html, div, img, p, text)
-import Html.Attributes exposing (attribute, class, height, id, src, style, width)
+import Html exposing (Attribute, Html, div, h5, img, p, table, tbody, td, text, thead, tr)
+import Html.Attributes exposing (alt, attribute, class, height, id, src, style, width)
 import Http
 import Image exposing (Image)
 import Json.Decode exposing (decodeString, dict, errorToString, field, keyValuePairs, string)
 import List exposing (head, map)
-import String exposing (toInt)
+import String exposing (fromInt, toInt)
 import Loading
   exposing
       ( LoaderType(..)
@@ -88,13 +88,22 @@ view model =
                           ]
             x -> case (head x) of
                     Just z -> div [] [
-                                      img [src "/images/world.svg", style "position" "absolute", style "top" "0", style "left" "0", style "width" "100%", style "height" "100vh"] [],
-                                      img [id "biero", src "/images/biero.svg", style "position" "absolute", style "top" "0", style "left" "0", style "width" "100%", style "height" "100vh"] [],
+                                      img [src "/images/world.svg", style "position" "absolute", style "top" "0", style "left" "0", style "width" "80%", style "height" "100vh"] [],
+                                      img [id "biero", src "/images/biero.svg", style "position" "absolute", style "top" "0", style "left" "0", style "width" "80%", style "height" "100vh"] [],
                                       map (\team ->
                                             teamPerson team.cssColor team.posLeft team.posTop
                                           ) model.tableData |> div []
                                       ]
                     _ -> div [] []
+        ,
+        div [class "leaderboard", style "width" "20%"] [
+            div [class "card", style "height" "100%"] [
+              div [class "card-body"] [
+                h5 [class "card-title"] [text "Leaderboard"],
+                createLeaderboard model.tableData
+              ]
+            ]
+        ]
     ]
 
 teamPerson : String -> String -> String -> Html Msg
@@ -116,8 +125,22 @@ getArrString str = case decodeString (field "table" (Json.Decode.list (dict stri
 tableTeams : List(Dict String String) -> List Team
 tableTeams x = map (\y -> Team (getStringFromDict y "name") (getStringFromDict y "users") (stringToInt (getStringFromDict y "etappe")) (getStringFromDict y "color") (getStringFromDict y "cssColor") (getStringFromDict y "posLeft") (getStringFromDict y "posTop")) x
 
+createLeaderboard : List Team  -> Html Msg
+createLeaderboard lst = table [class "table"] [
+                                thead [] [
+                                    tr [] [
+                                        td [] [text "Color"],
+                                        td [] [text "Team"],
+                                        td [] [text "Etappe"]
+                                    ]
+                                ], (lst) |> map (\x -> tr [] [
+                                                            td [] [div [class "dot dotCreate", style "background" x.color] []],
+                                                            td [] [text x.name],
+                                                            td [] [text (fromInt x.etappe)]
+                                                        ]) |> tbody []
+                            ]
+
 stringToInt : String -> Int
 stringToInt s = case toInt s of
                  Just x -> x
                  Nothing -> 0
---svgFiltersToStyles : String -> List(Attribute msg)

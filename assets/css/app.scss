@@ -130,3 +130,10 @@ $theme-colors: (
 .nav-item:hover{
   backdrop-filter: brightness(30);
 }
+
+.leaderboard{
+  right: 0;
+  top : 0;
+  height: 100%;
+  position: absolute;
+}

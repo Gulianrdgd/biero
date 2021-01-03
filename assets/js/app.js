@@ -47,17 +47,22 @@ function findMatch(posLeft, posTop, posArr){
     return true;
 }
 
+function convertRemToPixels(rem) {
+    return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+}
+
 function toStringFunc(table, type){
     let pos = 0;
 
+    let windowWidth = window.innerWidth * 0.8;
     let imageWidth = window.innerHeight/(IMAGESIZE[1]/IMAGESIZE[0]);
-    if(imageWidth > window.innerWidth){
-        imageWidth = window.innerWidth;
+    if(imageWidth > windowWidth){
+        imageWidth = windowWidth;
     }
 
-    let worldLeft = (window.innerWidth - imageWidth)/2;
+    let worldLeft = (windowWidth - imageWidth)/2;
 
-    let imageHeight = window.innerWidth * (IMAGESIZE[1]/IMAGESIZE[0]);
+    let imageHeight = (windowWidth) * (IMAGESIZE[1]/IMAGESIZE[0]);
     if(imageHeight > window.innerHeight){
         imageHeight = window.innerHeight;
     }
@@ -77,13 +82,6 @@ function toStringFunc(table, type){
         }
         table[val].cssColor = getVal(table[val].color);
 
-        // table[val].posLeft = ((window.innerWidth / IMAGESIZE[0]) * etappePos[table[val].etappe][0] + pos).toString();
-        // let height = window.innerWidth * (IMAGESIZE[0]/IMAGESIZE[1]);
-        // let offsetTop = (window.innerHeight - height) / 2
-        // if(offsetTop <0){
-        //     offsetTop = 0;
-        // }
-        // table[val].posTop = ((height / IMAGESIZE[1]) * etappePos[table[val].etappe][1] + offsetTop + pos).toString();
         table[val].posLeft = (worldLeft +  ((imageWidth /IMAGESIZE[0]) * etappePos[table[val].etappe][0]) + pos).toString();
         table[val].posTop = (worldTop + ((imageHeight / IMAGESIZE[1]) * etappePos[table[val].etappe][1]) + pos).toString();
         pos+=window.innerWidth/150;
