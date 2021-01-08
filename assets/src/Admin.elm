@@ -9,9 +9,9 @@ import Html.Attributes exposing (attribute, class, placeholder, src, style, valu
 import Html.Events exposing (on, onClick, onInput)
 import Json.Decode exposing (decodeString, dict, errorToString, field, keyValuePairs, string)
 import Json.Encode as Encode
-import List exposing (filter, length, map)
+import List exposing (filter, head, length, map, reverse, tail)
 import List.Extra exposing (find)
-import String exposing (fromInt, toInt)
+import String exposing (fromInt, split, toInt)
 import Toasty
 import ColorPicker
 
@@ -36,7 +36,8 @@ type alias RoundInfo =
   , query : String
   , changes : Change
   , changedFieldTemp : String
-  , changedFieldTemp2 : String
+  , changedFieldTempPass : String
+  , changedFieldTempPass2 : String
   , changeNameTemp : String
   , selectedRow : String
   , toasties : Toasty.Stack String
@@ -65,6 +66,8 @@ type alias User =
   { username : String
   , isAdmin : String
   , delete : Bool
+  , password : String
+  , password2 : String
   }
 
 type alias Team =
@@ -97,7 +100,7 @@ containerAttrs =
 
 init : String -> RoundInfo
 init url =
-  RoundInfo "" "" [] None Null "" (Change [] []) "" "" "" "" Toasty.initialState ColorPicker.empty (Color.rgb 255 0 0) ""
+  RoundInfo "" "" [] None Null "" (Change [] []) "" "" "" "" "" Toasty.initialState ColorPicker.empty (Color.rgb 255 0 0) ""
 
 subscriptions : RoundInfo -> Sub Msg
 subscriptions model =
@@ -110,7 +113,7 @@ type Msg
   | SetQuery String
   | SendChanges Change
   | SetChange Change
-  | FocusOut String
+  | FocusOut String String
   | FocusOutCreate String
   | Input String String
   | SelectedRow String String
@@ -146,10 +149,21 @@ update msg model =
     Input kind s -> case kind of
                     "createName" ->
                          ({model | changeNameTemp = s}, Cmd.none)
+                    "changePass" ->
+                         ({model | changedFieldTempPass = s}, Cmd.none)
+                    "changePass2" ->
+                         ({model | changedFieldTempPass2 = s}, Cmd.none)
                     _ ->
                         ({model | changedFieldTemp = s}, Cmd.none)
-    FocusOut name ->
-            ({ model | changes = changeTeam model.changes name "none" model.changedFieldTemp "" False, selectedRow = "", changedFieldTemp = "", changeNameTemp = ""}, Cmd.none)
+    FocusOut name action ->
+            case action of
+                "teamsEdit" ->
+                    ({ model | changes = changeTeam model.changes name "none" model.changedFieldTemp "" False, selectedRow = "", changedFieldTemp = "", changeNameTemp = ""}, Cmd.none)
+                "userCreatePas" ->
+                    ({ model | changes = changeUser model.changes name "none" model.changedFieldTempPass "" "changePass", selectedRow = "", changedFieldTemp = "", changeNameTemp = ""}, Cmd.none)
+                "userCreatePas2" ->
+                    ({ model | changes = changeUser model.changes name "none" model.changedFieldTempPass model.changedFieldTempPass2 "changePass", selectedRow = "", changedFieldTemp = "", changeNameTemp = "", changedFieldTempPass = "", changedFieldTempPass2 = ""}, Cmd.none)
+                _ -> (model, Cmd.none)
     FocusOutCreate name ->
               ({ model | changes = changeTeam model.changes name "none" model.changedFieldTemp "none" False, selectedRow = ""}, Cmd.none)
     SelectedRow name users ->
@@ -293,11 +307,11 @@ createTableUser model lst = table [class "table"] [
                                         td [] [text "Password"],
                                         td [] [text "Password again"]
                                     ]
-                                ], (lst) |> map (\x -> tr [] [
+                                ], (lst) |> map (\x -> let change = getChangeUser x.username model in tr [] [
                                                             td [] [text x.username],
                                                             td [] [text x.isAdmin],
-                                                            td [] [input [value model.changedFieldTemp, onInput (Input "changePass"), onFocusOut (FocusOut model.changeNameTemp), class "form-control", placeholder "players"][]],
-                                                            td [] [input [value model.changedFieldTemp, onInput (Input "changePassVerify"), onFocusOut (FocusOut model.changeNameTemp), class "form-control", placeholder "players"][]]
+                                                            td [(if change.password == change.password2 then class "invalid" else class "")] [input [value model.changedFieldTempPass, onInput (Input "changePass"), onFocusOut (FocusOut x.username "userCreatePas"), attribute "type" "password", class "form-control", placeholder "password"][]],
+                                                            td [(if change.password == change.password2 then class "invalid" else class "")] [input [value model.changedFieldTempPass2, onInput (Input "changePass2"), onFocusOut (FocusOut x.username "userCreatePas2"), attribute "type" "password", class "form-control", placeholder "password again"][]]
                                                         ]) |> tbody []
                             ]
 
@@ -317,7 +331,7 @@ createTableTeams model lst = table [class "table"] [
                                                             if length (filter (\el -> el.name == x.name && el.delete) model.changes.teamList) > 0  then td [style "text-decoration" "underline", style "text-decoration-color" "red"] [text x.name] else td [] [text x.name],
                                                             td [] [
                                                                 if model.selectedRow == x.name then
-                                                                    input [value model.changedFieldTemp, onInput (Input "createPlayers"), onFocusOut (FocusOut x.name)] []
+                                                                    input [value model.changedFieldTemp, onInput (Input "createPlayers"), onFocusOut (FocusOut x.name "teamsEdit")] []
                                                                 else
                                                                    p [onClick (SelectedRow x.name x.users)] [text (getChangedVal x.users (getChangeString x.name model "users"))]
                                                                ],
@@ -353,6 +367,14 @@ colorModal model name users =
                     ]
                   ]
                 ]
+
+getPasswords : String -> (String, String)
+getPasswords input = let lst = split "," input in case (head lst, head (reverse lst)) of
+                                                     (Just x, Just y) -> (x, y)
+                                                     (Just x, Nothing) -> (x, "")
+                                                     (Nothing, Just y) -> ("", y)
+                                                     _ -> ("", "")
+
 
 createTableTeamsCreate : List Team -> Html Msg
 createTableTeamsCreate lst = table [class "table"] [
@@ -393,6 +415,16 @@ getChangeString name model attribute = case find (\x -> x.name == name) model.ch
                                                 _ -> "Wrong attribute!"
                                     Nothing -> ""
 
+getChangeStringUser : String -> RoundInfo -> String -> String
+getChangeStringUser name model attribute = case find (\x -> x.username == name) model.changes.userList of
+                                    Just y -> case attribute of
+                                                "password" -> y.password ++ ", " ++ y.password2
+                                                _ -> "Wrong attribute!"
+                                    Nothing -> ""
+getChangeUser : String -> RoundInfo -> User
+getChangeUser name model = case find (\x -> x.username == name) model.changes.userList of
+                                Just y -> y
+                                Nothing -> User "empty" "" False "" ""
 
 getChangeInt : String -> RoundInfo -> Int
 getChangeInt name model = case find (\x -> x.name == name) model.changes.teamList of
@@ -407,7 +439,7 @@ getArrString str = case decodeString (field "table" (Json.Decode.list (dict stri
 
 
 tableUsers : List(Dict String String) -> List User
-tableUsers x = map (\y -> User (getStringFromDict y "username") (getStringFromDict y "hasAdmin") False) x
+tableUsers x = map (\y -> User (getStringFromDict y "username") (getStringFromDict y "hasAdmin") False "" "") x
 
 
 tableTeams : List(Dict String String) -> List Team
@@ -478,6 +510,22 @@ changeTeam changes team op newUsers color delete = case find (\el -> el.name == 
                                             "none" -> Change (changes.teamList ++ [Team team newUsers 0 delete color]) changes.userList
                                             "color" -> Change (changes.teamList ++ [Team team newUsers 0 delete color]) changes.userList
                                             _ -> changes
+
+
+changeUser : Change -> String -> String -> String -> String -> String -> Change
+changeUser changes username admin pass pass2 op = case find (\el -> el.username == username) changes.userList of
+                                                    Just _ -> Change changes.teamList (map (\val -> if val.username == username then
+                                                                            case op of
+                                                                               "delete" -> User val.username val.isAdmin val.delete val.password val.password2
+                                                                               "changePass" -> User val.username val.isAdmin val.delete pass pass2
+                                                                               "changeAdmin" -> User val.username admin val.delete val.password val.password2
+                                                                               _ -> val
+                                                                         else val) changes.userList)
+                                                    Nothing -> case op of
+                                                                "delete" -> Change changes.teamList (changes.userList ++ [User username admin True pass pass2])
+                                                                "changePass" -> Change changes.teamList (changes.userList ++ [User username admin False pass pass2])
+                                                                "changeAdmin" -> Change changes.teamList (changes.userList ++ [User username admin False pass pass2])
+                                                                _ -> changes
 
 colorToHex : Color -> String
 colorToHex col = let {red, green, blue, alpha} = toRgba col in "#" ++ fixedSizeHex (Hex.toString (round (red * 255))) ++ fixedSizeHex (Hex.toString (round (green * 255))) ++ fixedSizeHex (Hex.toString (round (blue * 255)))

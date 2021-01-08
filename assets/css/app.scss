@@ -137,3 +137,8 @@ $theme-colors: (
   height: 100%;
   position: absolute;
 }
+
+.invalid{
+  text-decoration: underline;
+  text-decoration-color: red;
+}
