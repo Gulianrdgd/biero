@@ -127,6 +127,10 @@ $theme-colors: (
   border-bottom: none;
 }
 
+img {
+    pointer-events: none;
+}
+
 .nav-item:hover{
   backdrop-filter: brightness(30);
 }
@@ -139,6 +143,6 @@ $theme-colors: (
 }
 
 .invalid{
-  text-decoration: underline;
-  text-decoration-color: red;
+  border: none;
+  border-bottom: 2px solid red;
 }

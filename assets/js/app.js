@@ -35,31 +35,23 @@ channel.on('shout', payload => {
     }
 });
 
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
-function findMatch(posLeft, posTop, posArr){
-    for(let i = 0; i<posArr.length; i++){
-        if(Math.abs(posArr[i][0] - posLeft) <= 10 && Math.abs(posArr[i][1] - posTop) <= 10){
-            return false;
-        }
-    }
-    return true;
-}
-
-function convertRemToPixels(rem) {
-    return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
-}
 
 function toStringFunc(table, type){
     let pos = 0;
 
-    let windowWidth = window.innerWidth * 0.8;
+    // Bootstrap col spacing
+    let windowWidth;
+    if(window.innerWidth < 576){ // SMOL
+        windowWidth = window.innerWidth;
+    }else if(window.innerWidth >= 1200){ // XL
+        windowWidth = window.innerWidth * (1/12*10);
+    } else {
+        windowWidth = window.innerWidth * (1/12*8);
+    }
     let imageWidth = window.innerHeight/(IMAGESIZE[1]/IMAGESIZE[0]);
     if(imageWidth > windowWidth){
         imageWidth = windowWidth;
     }
-
     let worldLeft = (windowWidth - imageWidth)/2;
 
     let imageHeight = (windowWidth) * (IMAGESIZE[1]/IMAGESIZE[0]);

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
@@ -9,9 +12,13 @@
       <change beforePath="$PROJECT_DIR$/assets/css/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmi" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmi" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Main.elmi" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Main.elmi" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Main.elmo" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Main.elmo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/src/Admin.elm" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/Admin.elm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/src/Main.elm" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/Main.elm" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +29,7 @@
     <elmProjects>
       <project path="$PROJECT_DIR$/assets/elm.json" />
     </elmProjects>
-    <settings elmCompilerPath="$PROJECT_DIR$/assets/node_modules/.bin/elm" elmFormatPath="null" elmTestPath="null" isElmFormatOnSaveEnabled="false" />
+    <settings elmCompilerPath="$PROJECT_DIR$/assets/node_modules/.bin/elm" elmFormatPath="$PROJECT_DIR$/assets/node_modules/.bin/elm-format" elmTestPath="null" isElmFormatOnSaveEnabled="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -49,7 +56,8 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/elm.json" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="org.elm.workspace.PROJECT_DISCOVERY" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="org.elm.workspace.ui.ElmWorkspaceConfigurable" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -119,6 +127,10 @@
       <workItem from="1610134680196" duration="258000" />
       <workItem from="1610134964721" duration="36000" />
       <workItem from="1610135038953" duration="2519000" />
+      <workItem from="1610217861661" duration="939000" />
+      <workItem from="1610809480319" duration="66000" />
+      <workItem from="1610810584177" duration="1237000" />
+      <workItem from="1610812076863" duration="5949000" />
     </task>
     <task id="LOCAL-00001" summary="Done with teams for now, now only the users and then we can do the front end">
       <created>1609239286109</created>
