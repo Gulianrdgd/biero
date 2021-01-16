@@ -136,9 +136,9 @@ type Msg
     | Selected Selected Action
     | SetQuery String
     | SendChanges Change
+    | DiscardChanges
     | SetChange Change
     | FocusOut String String
-    | FocusOutCreate String
     | Input String String
     | SelectedRow String String
     | DeleteFromChanges String String
@@ -151,7 +151,7 @@ update : Msg -> RoundInfo -> ( RoundInfo, Cmd Msg )
 update msg model =
     case msg of
         Selected s x ->
-            ( { model | selected = s, action = x, tableData = [], changedFieldTemp = "", selectedRow = "", changeNameTemp = "" }
+            ( { model | selected = s, action = x, tableData = [], changedFieldTemp = "", selectedRow = "", changeNameTemp = "", query = "", changedFieldTempPass2 = "", changedFieldTempPass = "" }
             , sendMessage
                 (Encode.encode 0
                     (Encode.object
@@ -185,7 +185,7 @@ update msg model =
             ( { model | changes = change, selectedWheel = "" }, Cmd.none )
 
         SendChanges change ->
-            ( { model | changes = Change [] [], changedFieldTemp = "", changeNameTemp = "" }
+            ( { model | changes = Change [] [], changedFieldTemp = "", changeNameTemp = "", changedFieldTempPass = "", changedFieldTempPass2 = "" }
             , sendMessage
                 (Encode.encode 0
                     (Encode.object
@@ -199,6 +199,10 @@ update msg model =
                 )
             )
                 |> Toasty.addToast myConfig ToastyMsg "Change sent!"
+
+        DiscardChanges ->
+            ( { model | changes = Change [] [], changedFieldTemp = "", changeNameTemp = "" }, Cmd.none )
+                |> Toasty.addToast myConfig ToastyMsg "Change discarded!"
 
         Input kind s ->
             case kind of
@@ -215,29 +219,44 @@ update msg model =
                     ( { model | changedFieldTemp = s }, Cmd.none )
 
         FocusOut name action ->
-            case action of
-                "teamsEdit" ->
-                    ( { model | changes = changeTeam model.changes name "none" model.changedFieldTemp "" False, selectedRow = "", changedFieldTemp = "", changeNameTemp = "" }, Cmd.none )
+            if name == "" then
+                ( model, Cmd.none )
 
-                "userCreatePas" ->
-                    ( { model | changes = changeUser model.changes name "none" model.changedFieldTempPass "" "changePass", selectedRow = "", changedFieldTemp = "", changeNameTemp = "" }, Cmd.none )
+            else
+                case action of
+                    "teamsEdit" ->
+                        ( { model | changes = changeTeam model.changes name "none" model.changedFieldTemp "" False, selectedRow = "", changedFieldTemp = "", changeNameTemp = "" }, Cmd.none )
 
-                "userCreatePas2" ->
-                    ( { model | changes = changeUser model.changes name "none" model.changedFieldTempPass model.changedFieldTempPass2 "changePass", selectedRow = "", changedFieldTemp = "", changeNameTemp = "", changedFieldTempPass = "", changedFieldTempPass2 = "" }, Cmd.none )
+                    "userCreatePas" ->
+                        ( { model | changes = changeUser model.changes name "none" model.changedFieldTempPass model.changedFieldTempPass2 "changePass", selectedRow = "", changedFieldTemp = "", changeNameTemp = "" }, Cmd.none )
 
-                _ ->
-                    ( model, Cmd.none )
+                    "userCreatePas2" ->
+                        ( { model | changes = changeUser model.changes name "none" model.changedFieldTempPass model.changedFieldTempPass2 "changePass", selectedRow = "", changedFieldTemp = "", changeNameTemp = "" }, Cmd.none )
 
-        FocusOutCreate name ->
-            ( { model | changes = changeTeam model.changes name "none" model.changedFieldTemp "none" False, selectedRow = "" }, Cmd.none )
+                    "userCreate" ->
+                        ( { model | changes = changeUser model.changes name "none" model.changedFieldTempPass model.changedFieldTempPass2 "changePass", selectedRow = "", changedFieldTemp = "", changeNameTemp = "" }, Cmd.none )
+
+                    "teamsCreate" ->
+                        ( { model | changes = changeTeam model.changes name "none" model.changedFieldTemp "none" False, selectedRow = "" }, Cmd.none )
+
+                    _ ->
+                        ( model, Cmd.none )
 
         SelectedRow name users ->
-            case (getChangeTeam name model).users of
-                "" ->
-                    ( { model | selectedRow = name, changedFieldTemp = users }, Cmd.none )
+            case model.selected of
+                Teams ->
+                    case (getChangeTeam name model).users of
+                        "" ->
+                            ( { model | selectedRow = name, changedFieldTemp = users }, Cmd.none )
 
-                x ->
-                    ( { model | selectedRow = name, changedFieldTemp = x }, Cmd.none )
+                        x ->
+                            ( { model | selectedRow = name, changedFieldTemp = x }, Cmd.none )
+
+                Users ->
+                    ( { model | selectedRow = name }, Cmd.none )
+
+                None ->
+                    ( model, Cmd.none )
 
         ToastyMsg subMsg ->
             Toasty.update myConfig ToastyMsg subMsg model
@@ -275,7 +294,7 @@ view : RoundInfo -> Html Msg
 view model =
     div [ class "container bg-white", style "max-width" "1750px" ]
         [ Toasty.view myConfig renderToast ToastyMsg model.toasties
-        , div [ class "row", style "height" "100vh" ]
+        , div [ class "row", style "height" "100%", style "min-height" "100vh" ]
             [ div [ class "col-3 overflow-hidden bg-dark", style "max-width" "20%" ]
                 [ div []
                     [ img [ src "/images/logo.png", class "logo" ] []
@@ -330,16 +349,16 @@ createTable model =
                                 [ h1 [ class "mb-3" ] [ text "Create a new team" ]
                                 , div [ class "form-group" ]
                                     [ label [] [ text "TeamName" ]
-                                    , input [ value model.changeNameTemp, onInput (Input "createName"), onFocusOut (FocusOutCreate model.changeNameTemp), class "form-control", placeholder "Enter team name" ] []
+                                    , input [ value model.changeNameTemp, onInput (Input "createName"), onFocusOut (FocusOut model.changeNameTemp "teamsCreate"), class "form-control", placeholder "Enter team name" ] []
                                     ]
                                 , div [ class "form-group" ]
                                     [ label [] [ text "Players" ]
-                                    , input [ value model.changedFieldTemp, onInput (Input "createPlayers"), onFocusOut (FocusOutCreate model.changeNameTemp), class "form-control", placeholder "players" ] []
+                                    , input [ value model.changedFieldTemp, onInput (Input "createPlayers"), onFocusOut (FocusOut model.changeNameTemp "teamsCreate"), class "form-control", placeholder "players" ] []
                                     , small [ class "form-text text-muted" ] [ text "Please enter names with comma separation" ]
                                     ]
                                 , button [ class "btn btn-primary mb-auto", onClick (SendChanges model.changes) ] [ text "Submit" ]
                                 ]
-                            , div [ class "mt-5" ]
+                            , div [ class "mt-5 table-responsive" ]
                                 [ h1 [ class "mb-3" ] [ text "Current teams" ]
                                 , createTableTeamsCreate acceptableTeams
                                 ]
@@ -347,22 +366,48 @@ createTable model =
 
                     _ ->
                         div [ class "" ]
-                            [ div [ class "centered align-middle", style "margin-top" "10%" ]
+                            [ div [ class "centered align-middle ", style "margin-top" "10%" ]
                                 [ h1 [ class "mb-3" ] [ text "Edit the teams" ]
                                 , div [ class "mt-5 mb-5" ] [ createButton model ]
-                                , div [] [ createTableTeams model acceptableTeams ]
+                                , div [ class "table-responsive" ] [ createTableTeams model acceptableTeams ]
                                 ]
                             ]
 
             Users ->
                 case model.action of
                     Create ->
-                        div [] []
+                        let
+                            change =
+                                getChangeUser model.changeNameTemp model
+                        in
+                        div [ class "" ]
+                            [ div [ class "centered align-middle", style "margin-top" "10%" ]
+                                [ h1 [ class "mb-3" ] [ text "Create a new team" ]
+                                , div [ class "form-group" ]
+                                    [ label [] [ text "Username" ]
+                                    , input [ value model.changeNameTemp, onInput (Input "createName"), onFocusOut (FocusOut model.changeNameTemp "userCreate"), class "form-control", placeholder "Enter username" ] []
+                                    ]
+                                , div [ class "form-group" ]
+                                    [ label [] [ text "Password" ]
+                                    , input [ value (getChangedVal change.password model.changedFieldTempPass), onInput (Input "changePass"), onFocusOut (FocusOut model.changeNameTemp "userCreatePas"), class "form-control", placeholder "password" ] []
+                                    , input [ value (getChangedVal change.password2 model.changedFieldTempPass2), onInput (Input "changePass2"), onFocusOut (FocusOut model.changeNameTemp "userCreatePas2"), class "form-control mt-2", placeholder "password again" ] []
+                                    ]
+                                , div [ class "form-group form-check" ]
+                                    [ input [ attribute "type" "checkbox", class "form-check-input" ] []
+                                    , label [ class "form-check-label" ] [ text "Is super user" ]
+                                    ]
+                                , button [ class "btn btn-primary mb-auto", onClick (SendChanges model.changes) ] [ text "Submit" ]
+                                ]
+                            , div [ class "mt-5 table-responsive" ]
+                                [ h1 [ class "mb-3" ] [ text "Current teams" ]
+                                , createTableTeamsCreate acceptableTeams
+                                ]
+                            ]
 
                     _ ->
-                        div [ class "mt-5" ]
+                        div [ class "mt-5 " ]
                             [ div [ class "mb-5" ] [ createButton model ]
-                            , div [] [ createTableUser model acceptableUsers ]
+                            , div [ class "table-responsive" ] [ createTableUser model acceptableUsers ]
                             ]
 
             None ->
@@ -383,10 +428,16 @@ createButton model =
             [ input [ placeholder "Search by Name", onInput SetQuery ] []
             ]
         , div [ class "col", style "text-align" "right" ]
-            [ button [ class "btn btn-dark", onClick (SendChanges model.changes) ]
+            [ button [ class "btn btn-dark", style "margin-right" "10px", onClick (SendChanges model.changes) ]
                 [ div [ class "row center" ]
                     [ p [ class "col-auto mb-0" ] [ text "Apply changes" ]
                     , p [ class "col text-success mb-0" ] [ text (fromInt (length model.changes.teamList + length model.changes.userList)) ]
+                    ]
+                ]
+            , button [ class "btn btn-dark", onClick DiscardChanges ]
+                [ div [ class "row center" ]
+                    [ p [ class "col-auto mb-0" ] [ text "Discard changes" ]
+                    , p [ class "col text-danger mb-0" ] [ text (fromInt (length model.changes.teamList + length model.changes.userList)) ]
                     ]
                 ]
             ]
@@ -421,7 +472,7 @@ createTableUser model lst =
                               else
                                 class ""
                             ]
-                            [ input [ value model.changedFieldTempPass, onInput (Input "changePass"), onFocusOut (FocusOut x.username "userCreatePas"), attribute "type" "password", class "form-control", placeholder "password" ] [] ]
+                            [ input [ value model.changedFieldTempPass, onInput (Input "changePass"), onFocusIn (SelectedRow x.username ""), onFocusOut (FocusOut x.username "userCreatePas"), class "form-control", placeholder (getChangedVal "password" change.password) ] [] ]
                         , td
                             [ if change.password /= change.password2 then
                                 class "invalid"
@@ -429,7 +480,7 @@ createTableUser model lst =
                               else
                                 class ""
                             ]
-                            [ input [ value model.changedFieldTempPass2, onInput (Input "changePass2"), onFocusOut (FocusOut x.username "userCreatePas2"), attribute "type" "password", class "form-control", placeholder "password again" ] [] ]
+                            [ input [ value model.changedFieldTempPass2, onInput (Input "changePass2"), onFocusIn (SelectedRow x.username ""), onFocusOut (FocusOut x.username "userCreatePas2"), class "form-control", placeholder (getChangedVal "password again" change.password2) ] [] ]
                         ]
                 )
             |> tbody []
@@ -511,26 +562,6 @@ colorModal model name users =
         ]
 
 
-getPasswords : String -> ( String, String )
-getPasswords input =
-    let
-        lst =
-            split "," input
-    in
-    case ( head lst, head (reverse lst) ) of
-        ( Just x, Just y ) ->
-            ( x, y )
-
-        ( Just x, Nothing ) ->
-            ( x, "" )
-
-        ( Nothing, Just y ) ->
-            ( "", y )
-
-        _ ->
-            ( "", "" )
-
-
 createTableTeamsCreate : List Team -> Html Msg
 createTableTeamsCreate lst =
     table [ class "table" ]
@@ -570,7 +601,7 @@ getChangedVal : String -> String -> String
 getChangedVal str1 str2 =
     case ( str1, str2 ) of
         ( "", "" ) ->
-            "None"
+            ""
 
         ( "", x ) ->
             x
