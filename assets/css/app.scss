@@ -42,8 +42,11 @@ $theme-colors: (
 }
 
 .dot{
-  margin: 1rem;
   border-radius: 50px;
+  height: 1.9rem;
+  margin-right: 1rem;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .dotCreate{
@@ -54,6 +57,11 @@ $theme-colors: (
 .footnote{
   position: fixed;
   bottom: 10px;
+}
+
+.plusmin {
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .fade{

@@ -10,7 +10,7 @@ import Html.Attributes exposing (attribute, class, placeholder, src, style, valu
 import Html.Events exposing (on, onClick, onInput)
 import Json.Decode exposing (decodeString, dict, errorToString, field, keyValuePairs, string)
 import Json.Encode as Encode
-import List exposing (filter, head, length, map, reverse)
+import List exposing (filter, head, length, map, reverse, sort, sortBy)
 import List.Extra exposing (find)
 import String exposing (fromInt, split, toInt)
 import Toasty
@@ -334,10 +334,10 @@ createTable model =
             String.toLower model.query
 
         acceptableUsers =
-            List.filter (String.contains lowerQuery << String.toLower << .username) (tableUsers model.tableData)
+            sortBy (\x -> x.username) (List.filter (String.contains lowerQuery << String.toLower << .username) (tableUsers model.tableData))
 
         acceptableTeams =
-            List.filter (String.contains lowerQuery << String.toLower << .name) (tableTeams model.tableData)
+            sortBy (\x -> x.name) (List.filter (String.contains lowerQuery << String.toLower << .name) (tableTeams model.tableData))
     in
     div [ class "container", style "width" "80%" ]
         [ case model.selected of
@@ -381,8 +381,8 @@ createTable model =
                                 getChangeUser model.changeNameTemp model
                         in
                         div [ class "" ]
-                            [ div [ class "centered align-middle", style "margin-top" "10%" ]
-                                [ h1 [ class "mb-3" ] [ text "Create a new team" ]
+                            [ div [ class "centered align-middle mt-5" ]
+                                [ h1 [ class "mb-3" ] [ text "Create a new user" ]
                                 , div [ class "form-group" ]
                                     [ label [] [ text "Username" ]
                                     , input [ value model.changeNameTemp, onInput (Input "createName"), onFocusOut (FocusOut model.changeNameTemp "userCreate"), class "form-control", placeholder "Enter username" ] []
@@ -399,7 +399,7 @@ createTable model =
                                 , button [ class "btn btn-primary mb-auto", onClick (SendChanges model.changes) ] [ text "Submit" ]
                                 ]
                             , div [ class "mt-5 table-responsive" ]
-                                [ h1 [ class "mb-3" ] [ text "Current teams" ]
+                                [ h1 [ class "mb-3" ] [ text "Current users" ]
                                 , createTableTeamsCreate acceptableTeams
                                 ]
                             ]
@@ -428,13 +428,13 @@ createButton model =
             [ input [ placeholder "Search by Name", onInput SetQuery ] []
             ]
         , div [ class "col", style "text-align" "right" ]
-            [ button [ class "btn btn-dark", style "margin-right" "10px", onClick (SendChanges model.changes) ]
+            [ button [ class "btn btn-dark", style "margin-right" "10px", style "margin-bottom" "10px", onClick (SendChanges model.changes) ]
                 [ div [ class "row center" ]
                     [ p [ class "col-auto mb-0" ] [ text "Apply changes" ]
                     , p [ class "col text-success mb-0" ] [ text (fromInt (length model.changes.teamList + length model.changes.userList)) ]
                     ]
                 ]
-            , button [ class "btn btn-dark", onClick DiscardChanges ]
+            , button [ class "btn btn-dark", style "margin-bottom" "10px", onClick DiscardChanges ]
                 [ div [ class "row center" ]
                     [ p [ class "col-auto mb-0" ] [ text "Discard changes" ]
                     , p [ class "col text-danger mb-0" ] [ text (fromInt (length model.changes.teamList + length model.changes.userList)) ]
@@ -518,18 +518,25 @@ createTableTeams model lst =
                                 input [ value model.changedFieldTemp, onInput (Input "createPlayers"), onFocusOut (FocusOut x.name "teamsEdit") ] []
 
                               else
-                                p [ onClick (SelectedRow x.name x.users) ] [ text (getChangedVal x.users change.users) ]
+                                p [ onClick (SelectedRow x.name x.users) ]
+                                    [ case getChangedVal x.users change.users of
+                                        "" ->
+                                            text "None"
+
+                                        str ->
+                                            text str
+                                    ]
                             ]
                         , td [] [ text (fromInt (x.etappe + change.etappe)) ]
                         , td []
-                            [ div [ class "row " ]
-                                [ button [ class "col-md-3 btn btn-dark", onClick (SetChange (changeTeam model.changes x.name "+" change.users x.color False)) ] [ text "+" ]
-                                , button [ class "col-md-3 btn btn-dark", style "margin-left" "0.1rem", onClick (SetChange (changeTeam model.changes x.name "-" change.users x.color False)) ] [ text "-" ]
+                            [ div [ class "row justify-content-center" ]
+                                [ button [ class "plusmin col-3 btn btn-dark", onClick (SetChange (changeTeam model.changes x.name "+" x.users x.color False)) ] [ text "+" ]
+                                , button [ class "plusmin col-3 btn btn-dark", style "margin-left" "0.1rem", onClick (SetChange (changeTeam model.changes x.name "-" x.users x.color False)) ] [ text "-" ]
                                 ]
                             ]
                         , td []
-                            [ div [ class "row justify-content-start" ]
-                                [ div [ class "dot col-sm-1", style "background" (getChangedVal x.color change.color), style "--bs-gutter-x" "1rem" ] []
+                            [ div [ class "row justify-content-left" ]
+                                [ div [ class "dot col-sm-1", style "background" (getChangedVal x.color change.color) ] []
                                 , button [ class "col-sm-5 btn btn-dark", onClick (GetColorWheel x.name) ] [ text "Choose color" ]
                                 , if model.selectedWheel == x.name then
                                     colorModal model x.name x.users
@@ -538,7 +545,7 @@ createTableTeams model lst =
                                     div [] []
                                 ]
                             ]
-                        , td []
+                        , td [ class "d-flex justify-content-center", style "border-bottom-width" "0" ]
                             [ button [ attribute "type" "button", class "btn-close", attribute "aria-label" "Close", onClick (DeleteFromChanges "Teams" x.name) ] []
                             ]
                         ]
@@ -724,10 +731,10 @@ changeTeam changes team op newUsers color delete =
                         if val.name == team then
                             case op of
                                 "+" ->
-                                    Team val.name newUsers (val.etappe + 1) (val.delete || delete) val.color
+                                    Team val.name val.users (val.etappe + 1) (val.delete || delete) val.color
 
                                 "-" ->
-                                    Team val.name newUsers (val.etappe - 1) (val.delete || delete) val.color
+                                    Team val.name val.users (val.etappe - 1) (val.delete || delete) val.color
 
                                 "none" ->
                                     Team val.name newUsers val.etappe (val.delete || delete) val.color

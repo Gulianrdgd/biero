@@ -38,7 +38,7 @@ channel.on('shout', payload => {
 
 function toStringFunc(table, type){
     let pos = 0;
-
+    let etappe = -1;
     // Bootstrap col spacing
     let windowWidth;
     if(window.innerWidth < 576){ // SMOL
@@ -74,9 +74,15 @@ function toStringFunc(table, type){
         }
         table[val].cssColor = getVal(table[val].color);
 
+        if(etappe === table[val].etappe) {
+            pos += window.innerWidth / 150;
+        } else{
+            etappe = table[val].etappe;
+            pos = 0;
+        }
+
         table[val].posLeft = (worldLeft +  ((imageWidth /IMAGESIZE[0]) * etappePos[table[val].etappe][0]) + pos).toString();
         table[val].posTop = (worldTop + ((imageHeight / IMAGESIZE[1]) * etappePos[table[val].etappe][1]) + pos).toString();
-        pos+=window.innerWidth/150;
     }
 }
 
@@ -85,28 +91,6 @@ function reportWindowSize() {
     main.ports.messageReceiver.send(JSON.stringify(payloadTemp));
 }
 
-//
-// window.addEventListener('mouseup', e => {
-//     console.log(e.x);
-//     console.log(e.y);
-//     let imageWidth = window.innerHeight/(IMAGESIZE[1]/IMAGESIZE[0]);
-//     if(imageWidth > window.innerWidth){
-//         imageWidth = window.innerWidth;
-//     }
-//
-//     let worldLeft = window.innerWidth - imageWidth;
-//
-//     let imageHeight = window.innerWidth * (IMAGESIZE[1]/IMAGESIZE[0]);
-//     if(imageHeight > window.innerHeight){
-//         imageHeight = window.innerHeight;
-//     }
-//
-//     let worldTop = window.innerHeight - imageHeight;
-//     console.log("Width: " + imageWidth);
-//     console.log("Heigth: " + imageHeight);
-//     console.log("Offset left: " + worldLeft);
-//     console.log("Offset top: " + worldTop);
-// });
 
 channel.push('shout', {username: "init",  body: "?getTable"});
 window.onresize = reportWindowSize;

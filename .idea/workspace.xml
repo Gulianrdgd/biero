@@ -10,11 +10,10 @@
     <list default="true" id="789a7fd3-0b8a-463b-af55-3da823d5846b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/css/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmi" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmi" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/hexToStyle.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/hexToStyle.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/src/Admin.elm" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/Admin.elm" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,7 +53,7 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="org.elm.workspace.PROJECT_DISCOVERY" value="true" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="org.elm.workspace.ui.ElmWorkspaceConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -67,7 +66,7 @@
       <recent name="$PROJECT_DIR$/lib/biero_web/templates/page" />
     </key>
   </component>
-  <component name="RunManager" selected="Elixir Mix.Unnamed">
+  <component name="RunManager" selected="Elixir.Unnamed">
     <configuration default="true" type="ELM_TEST_RUN_CONFIGURATION" factoryName="Elm Test configuration factory">
       <ElmTestRunConfiguration elm-folder="$PROJECT_DIR$/assets" />
       <method v="2" />
@@ -88,10 +87,6 @@
       <module-filters inherit-application-module-filters="true" />
       <method v="2" />
     </configuration>
-    <list>
-      <item itemvalue="Elixir.Unnamed" />
-      <item itemvalue="Elixir Mix.Unnamed" />
-    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -127,7 +122,10 @@
       <workItem from="1610217861661" duration="939000" />
       <workItem from="1610809480319" duration="66000" />
       <workItem from="1610810584177" duration="1237000" />
-      <workItem from="1610812076863" duration="14262000" />
+      <workItem from="1610812076863" duration="14306000" />
+      <workItem from="1610902806095" duration="1340000" />
+      <workItem from="1610987448834" duration="2071000" />
+      <workItem from="1610989542221" duration="5322000" />
     </task>
     <task id="LOCAL-00001" summary="Done with teams for now, now only the users and then we can do the front end">
       <created>1609239286109</created>
@@ -164,7 +162,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610818058648</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Made the first steps for user editing and creating">
+      <created>1610829137833</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1610829137833</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -177,7 +182,8 @@
     <MESSAGE value="Scaling the players now finally works" />
     <MESSAGE value="Added leaderboard to the front page" />
     <MESSAGE value="Fixed some responsiveness" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed some responsiveness" />
+    <MESSAGE value="Made the first steps for user editing and creating" />
+    <option name="LAST_COMMIT_MESSAGE" value="Made the first steps for user editing and creating" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

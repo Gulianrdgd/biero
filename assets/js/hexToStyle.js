@@ -294,6 +294,7 @@ function hexToRgb(hex) {
         : null;
 }
 
+
 export function getVal(val) {
     const rgb = hexToRgb(val);
     if (rgb.length !== 3) {
