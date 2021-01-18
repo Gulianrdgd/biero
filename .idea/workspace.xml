@@ -9,12 +9,8 @@
   <component name="ChangeListManager">
     <list default="true" id="789a7fd3-0b8a-463b-af55-3da823d5846b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/hexToStyle.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/hexToStyle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/src/Admin.elm" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/Admin.elm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/static/images/world.svg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/static/images/world.svg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +121,7 @@
       <workItem from="1610812076863" duration="14306000" />
       <workItem from="1610902806095" duration="1340000" />
       <workItem from="1610987448834" duration="2071000" />
-      <workItem from="1610989542221" duration="5322000" />
+      <workItem from="1610989542221" duration="5890000" />
     </task>
     <task id="LOCAL-00001" summary="Done with teams for now, now only the users and then we can do the front end">
       <created>1609239286109</created>
@@ -169,7 +165,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610829137833</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Made the team table more responsive. &#10;Fixed players having spaces between bug">
+      <created>1610998261550</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1610998261550</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -183,7 +186,8 @@
     <MESSAGE value="Added leaderboard to the front page" />
     <MESSAGE value="Fixed some responsiveness" />
     <MESSAGE value="Made the first steps for user editing and creating" />
-    <option name="LAST_COMMIT_MESSAGE" value="Made the first steps for user editing and creating" />
+    <MESSAGE value="Made the team table more responsive. &#10;Fixed players having spaces between bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="Made the team table more responsive. &#10;Fixed players having spaces between bug" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

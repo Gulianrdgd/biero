@@ -61,6 +61,16 @@ function toStringFunc(table, type){
 
     let worldTop = (window.innerHeight - imageHeight)/2;
 
+    table.sort(function (a,b){
+        if (a.etappe > b.etappe){
+            return -1
+        }else if(a.etappe < b.etappe){
+            return 1;
+        }else{
+            return 0;
+        }
+    });
+
     for(let val in table) {
         if(type === "Users") {
             if (table[val].hasAdmin) {
