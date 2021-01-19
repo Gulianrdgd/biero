@@ -3,8 +3,9 @@ port module Main exposing (..)
 import Admin exposing (getStringFromDict)
 import Browser
 import Dict exposing (Dict)
-import Html exposing (Attribute, Html, div, h5, img, table, tbody, td, text, thead, tr)
+import Html exposing (Attribute, Html, div, h5, img, span, table, tbody, td, text, thead, tr)
 import Html.Attributes exposing (alt, attribute, class, id, src, style)
+import Html.Attributes.Aria exposing (role)
 import Json.Decode exposing (decodeString, dict, errorToString, field, keyValuePairs, string)
 import List exposing (head, map)
 import Loading
@@ -97,15 +98,10 @@ view model =
             [ div [ class "col-12 col-xs-8 col-md-8 col-lg-8 col-xl-10" ]
                 [ case model.tableData of
                     [] ->
-                        div [ class "center", style "margin" "auto" ]
-                            [ Loading.render
-                                DoubleBounce
-                                -- LoaderType
-                                { defaultConfig | color = "#333" }
-                                -- Config
-                                Loading.On
-
-                            -- LoadingState
+                        div [ class "d-flex justify-content-center" ]
+                            [ div [ class "spinner-border ", role "status", style "margin-top" "40vh", style "width" "10rem", style "height" "10rem" ]
+                                [ span [ class "visually-hidden" ] [ text "Loading..." ]
+                                ]
                             ]
 
                     x ->

@@ -7,10 +7,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="789a7fd3-0b8a-463b-af55-3da823d5846b" name="Default Changelist" comment="">
+    <list default="true" id="789a7fd3-0b8a-463b-af55-3da823d5846b" name="Default Changelist" comment="Fixed players no in order bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/static/images/world.svg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/static/images/world.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmi" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmi" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Main.elmo" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Main.elmo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/admin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/src/Admin.elm" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/Admin.elm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/src/Main.elm" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/Main.elm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/biero/team.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero/team.ex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/biero/user.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero/user.ex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/biero_web/channels/room_channel.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero_web/channels/room_channel.ex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/biero_web/controllers/page_controller.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero_web/controllers/page_controller.ex" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +43,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1ljxxYUFqhyacoWaTPToj1CMEx7" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -121,7 +138,11 @@
       <workItem from="1610812076863" duration="14306000" />
       <workItem from="1610902806095" duration="1340000" />
       <workItem from="1610987448834" duration="2071000" />
-      <workItem from="1610989542221" duration="5890000" />
+      <workItem from="1610989542221" duration="6649000" />
+      <workItem from="1611058221792" duration="14000" />
+      <workItem from="1611066179445" duration="4023000" />
+      <workItem from="1611070918877" duration="5876000" />
+      <workItem from="1611076905206" duration="2458000" />
     </task>
     <task id="LOCAL-00001" summary="Done with teams for now, now only the users and then we can do the front end">
       <created>1609239286109</created>
@@ -172,7 +193,14 @@
       <option name="project" value="LOCAL" />
       <updated>1610998261550</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Fixed players no in order bug">
+      <created>1610998756816</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1610998756816</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -187,7 +215,8 @@
     <MESSAGE value="Fixed some responsiveness" />
     <MESSAGE value="Made the first steps for user editing and creating" />
     <MESSAGE value="Made the team table more responsive. &#10;Fixed players having spaces between bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="Made the team table more responsive. &#10;Fixed players having spaces between bug" />
+    <MESSAGE value="Fixed players no in order bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed players no in order bug" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

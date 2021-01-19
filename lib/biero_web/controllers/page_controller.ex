@@ -19,7 +19,7 @@ defmodule BieroWeb.PageController do
     case User |> Ecto.Query.where(username: ^username) |> Repo.exists? do
       true ->
           user = User |> Ecto.Query.where(username: ^username) |> Repo.one
-          case Encryption.validate_password(user, password) and user.hasAdmin do
+          case Encryption.validate_password(user, password) do
             true ->
               token = Phoenix.Token.sign(BieroWeb.Endpoint, "user auth", username)
               changeset = User.changeset(user, %{token: token})

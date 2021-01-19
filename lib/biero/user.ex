@@ -36,25 +36,75 @@ defmodule Biero.User do
   end
 
   def getUsers() do
-    _result = Repo.all(from u in User,
-                   select: map(u, [:username, :hasAdmin]))
+    _result = Repo.all(
+      from u in User,
+      select: map(u, [:username, :hasAdmin])
+    )
   end
 
-  def setUser(changes) do
-    _side = Enum.map(changes, fn x ->
-      user = Users |> Ecto.Query.where(username: ^x.username) |> Repo.one
-      changeset = Users.changeset(user, %{username: x.username, hasAdmin: boolStringToInt(x.isAdmin)})
-      Repo.update(changeset)
-    end)
+  def setUser(changes, token) do
+    _side = Enum.map(
+      changes,
+      fn x ->
+        Logger.info(token)
+
+        isAdmin = boolStringToBool(x["isAdmin"])
+        if User
+           |> Ecto.Query.where(token: ^token, hasAdmin: true)
+           |> Repo.exists? do
+          if User
+             |> Ecto.Query.where(username: ^x["username"])
+             |> Repo.exists? do
+            user = User
+                   |> Ecto.Query.where(username: ^x["username"])
+                   |> Repo.one
+            if x["delete"] do
+              _result = User
+                        |> Ecto.Query.where(username: ^x["username"])
+                        |> Repo.delete_all
+            else
+              if x["password"] == "" do
+                changeset = Users.changeset(user, %{username: x["username"], hasAdmin: isAdmin})
+                Repo.update(changeset)
+              else
+                changeset = Users.changeset(
+                  user,
+                  %{username: x["username"], hasAdmin: isAdmin, password_hash: x["password"]}
+                )
+                Repo.update(changeset)
+              end
+            end
+          else
+            token = Phoenix.Token.sign(BieroWeb.Endpoint, "user auth", x["isAdmin"])
+            changeset = User.changeset(
+              %User{},
+              %{username: x["username"], password_hash: x["password"], token: token, hasAdmin: isAdmin, team: "admins"}
+            )
+            Repo.insert(changeset)
+          end
+        else
+          us = User
+               |> Ecto.Query.where(token: ^token, hasAdmin: false)
+               |> Repo.one
+          if x["username"] == us.username  && x["password"] != "" do
+            changeset = User.changeset(
+              us,
+              %{password_hash: x["password"]}
+            )
+            Repo.update(changeset)
+          end
+        end
+      end
+    )
     _result = getUsers()
   end
 
-  def boolStringToInt(bool) do
-      case bool do
-        "T" -> true
-        "F" -> false
-        _ -> false
-      end
+  def boolStringToBool(bool) do
+    case bool do
+      "T" -> true
+      "F" -> false
+      _ -> false
+    end
   end
 
 end

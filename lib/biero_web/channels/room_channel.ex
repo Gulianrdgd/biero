@@ -8,7 +8,7 @@ defmodule BieroWeb.RoomChannel do
     username = params["username"]
     token = params["token"]
     case is_nil(username) or is_nil(token) do
-      false -> case User |> Ecto.Query.where(username: ^username, hasAdmin: true) |> Repo.exists? do
+      false -> case User |> Ecto.Query.where(username: ^username) |> Repo.exists? do
                  true -> case Phoenix.Token.verify(BieroWeb.Endpoint, "user auth", token, max_age: 86400) do
                            {:ok, username} -> {:ok = ChannelWatcher.monitor(:chat, self(), {__MODULE__, :leave, [username]}), socket}
                            _ -> {:error, "NO"}
@@ -29,8 +29,10 @@ defmodule BieroWeb.RoomChannel do
     Logger.info(payload)
     case payload["body"] do
       "?getTable" ->
+        Logger.info("PLs table")
         "biero:" <> room = socket.topic
         if room == "admin" and Encryption.checkToken(payload["username"], payload["token"]) do
+          Logger.info("YES")
           case payload["table"] do
             "Teams" -> payload = %{"body" => "?newTable", "table" => Team.getTeams(), "type" =>"Teams"}
                        broadcast socket, "shout", payload
@@ -51,14 +53,14 @@ defmodule BieroWeb.RoomChannel do
           case [length(payload["newUsers"]), length(payload["newTeams"])] do
             [0, 0] ->
                       {:noreply, socket}
-            [_, 0] -> payload = %{"body" => "?newTable", "table" => User.setUser(payload["newUsers"]), "type" => "User"}
+            [_, 0] -> payload = %{"body" => "?newTable", "table" => User.setUser(payload["newUsers"], payload["token"]), "type" => "Users"}
                       broadcast socket, "shout", payload
                       {:noreply, socket}
             [0, _] -> payload = %{"body" => "?newTable", "table" => Team.setTeam(payload["newTeams"]), "type" => "Team"}
                       BieroWeb.Endpoint.broadcast("biero:front", "shout", payload)
                       broadcast socket, "shout", payload
                       {:noreply, socket}
-            _ ->      payload2 = %{"body" => "?newTable", "tableTeam" => Team.setTeam(payload["newTeams"]), "tableUser" => User.setUser(payload["newUsers"]), "type" => "Both"}
+            _ ->      payload2 = %{"body" => "?newTable", "tableTeam" => Team.setTeam(payload["newTeams"]), "tableUser" => User.setUser(payload["newUsers"], payload["token"]), "type" => "Both"}
                       broadcast socket, "shout", payload2
                       payloadFront = %{"body" => "?newTable", "table" => Team.setTeam(payload["newTeams"]), "type" => "Team"}
                       BieroWeb.Endpoint.broadcast("biero:front", "shout", payloadFront)

@@ -48,6 +48,8 @@ function toStringFunc(table, type){
 
 main.ports.sendMessage.subscribe(async function(payload) {
     let message = JSON.parse(payload)
+    console.log(payload);
+    console.log(message);
     switch (message.message){
         case "?getTable":
             channel.push('shout', {username: username,  body: "?getTable", token: message.token, table: message.table});
@@ -61,6 +63,7 @@ main.ports.sendMessage.subscribe(async function(payload) {
 });
 
 channel.on('shout', payload => {
+    console.log(payload);
     switch (payload.body) {
         case "?newTable":
             toStringFunc(payload.table, payload.type);

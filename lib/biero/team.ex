@@ -22,34 +22,70 @@ defmodule Biero.Team do
   end
 
   def getTeams() do
-    _result = Repo.all(from t in Team,
-                       select: map(t, [:name, :users, :etappe, :color]))
+    _result = Repo.all(
+      from t in Team,
+      select: map(t, [:name, :users, :etappe, :color])
+    )
   end
 
   def setTeam(changes) do
-    _side = Enum.map(changes, fn x ->
-      case Team |> Ecto.Query.where(name: ^x["team"]) |> Repo.exists? do
-        true ->
+    _side = Enum.map(
+      changes,
+      fn x ->
+        case Team
+             |> Ecto.Query.where(name: ^x["team"])
+             |> Repo.exists? do
+          true ->
             case x["delete"] do
               true ->
-                _result = Team |> Ecto.Query.where(name: ^x["team"]) |> Repo.delete_all
+                _result = Team
+                          |> Ecto.Query.where(name: ^x["team"])
+                          |> Repo.delete_all
               _ ->
-                user = Team |> Ecto.Query.where(name: ^x["team"]) |> Repo.one
+                team = Team
+                       |> Ecto.Query.where(name: ^x["team"])
+                       |> Repo.one
                 case x["color"] do
-                  "" ->  changeset = Team.changeset(user, %{name: x["team"], users: String.split(x["users"], ","), etappe: (x["etappe"] + user.etappe)})
-                           Repo.update(changeset)
-                  "none" -> changeset = Team.changeset(user, %{name: x["team"], users: String.split(x["users"], ","), etappe: (x["etappe"] + user.etappe), color: getRandomHex()})
-                            Repo.update(changeset)
-                  col -> changeset = Team.changeset(user, %{name: x["team"], users: String.split(x["users"], ","), etappe: (x["etappe"] + user.etappe), color: col})
-                           Repo.update(changeset)
+                  "" ->
+                    changeset = Team.changeset(
+                      team,
+                      %{name: x["team"], users: String.split(x["users"], ","), etappe: (x["etappe"] + team.etappe)}
+                    )
+                    Repo.update(changeset)
+                  "none" ->
+                    changeset = Team.changeset(
+                      team,
+                      %{
+                        name: x["team"],
+                        users: String.split(x["users"], ","),
+                        etappe: (x["etappe"] + team.etappe),
+                        color: getRandomHex()
+                      }
+                    )
+                    Repo.update(changeset)
+                  col ->
+                    changeset = Team.changeset(
+                      team,
+                      %{
+                        name: x["team"],
+                        users: String.split(x["users"], ","),
+                        etappe: (x["etappe"] + team.etappe),
+                        color: col
+                      }
+                    )
+                    Repo.update(changeset)
                 end
             end
-        false ->
+          false ->
             teamSet = %Team{}
-            changeset = Team.changeset(teamSet, %{name: x["team"], users: String.split(x["users"], ","), etappe: (x["etappe"]), color: getRandomHex()})
+            changeset = Team.changeset(
+              teamSet,
+              %{name: x["team"], users: String.split(x["users"], ","), etappe: (x["etappe"]), color: getRandomHex()}
+            )
             Repo.insert(changeset)
+        end
       end
-    end)
+    )
     _result = getTeams()
   end
 
