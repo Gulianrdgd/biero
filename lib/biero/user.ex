@@ -46,7 +46,6 @@ defmodule Biero.User do
     _side = Enum.map(
       changes,
       fn x ->
-        Logger.info(token)
 
         isAdmin = boolStringToBool(x["isAdmin"])
         if User

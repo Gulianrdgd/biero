@@ -26,13 +26,10 @@ defmodule BieroWeb.RoomChannel do
   def handle_in("shout", payload, socket) do
     #    payload {"body" => "message", "name" => "username"}
     #    topic is vissible in socket
-    Logger.info(payload)
     case payload["body"] do
       "?getTable" ->
-        Logger.info("PLs table")
         "biero:" <> room = socket.topic
         if room == "admin" and Encryption.checkToken(payload["username"], payload["token"]) do
-          Logger.info("YES")
           case payload["table"] do
             "Teams" -> payload = %{"body" => "?newTable", "table" => Team.getTeams(), "type" =>"Teams"}
                        broadcast socket, "shout", payload
