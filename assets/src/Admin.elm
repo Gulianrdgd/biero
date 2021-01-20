@@ -71,7 +71,6 @@ type Operation
 type FocusOutOperation
     = TeamsEdit
     | UserCreatePass
-    | UserCreatePass2
     | UserCreate
     | TeamsCreate
 
@@ -261,10 +260,11 @@ update msg model =
                         ( { model | changes = changeTeam model.changes name NoOP model.changedFieldTemp "" False, selectedRow = "", changedFieldTemp = "", changeNameTemp = "" }, Cmd.none )
 
                     UserCreatePass ->
-                        ( { model | changes = changeUser model.changes name "none" model.changedFieldTempPass model.changedFieldTempPass2 ChangePass, selectedRow = "", changedFieldTemp = "", changeNameTemp = "" }, Cmd.none )
+                        if model.changedFieldTempPass == model.changedFieldTempPass2 then
+                            ( { model | changes = changeUser model.changes name "none" model.changedFieldTempPass model.changedFieldTempPass2 ChangePass, selectedRow = "", changedFieldTemp = "", changeNameTemp = "" }, Cmd.none )
 
-                    UserCreatePass2 ->
-                        ( { model | changes = changeUser model.changes name "none" model.changedFieldTempPass model.changedFieldTempPass2 ChangePass, selectedRow = "", changedFieldTemp = "", changeNameTemp = "" }, Cmd.none )
+                        else
+                            ( model, Cmd.none )
 
                     UserCreate ->
                         ( { model | changes = changeUser model.changes name "none" model.changedFieldTempPass model.changedFieldTempPass2 ChangePass, selectedRow = "", changedFieldTemp = "", changeNameTemp = "" }, Cmd.none )
@@ -283,7 +283,7 @@ update msg model =
                             ( { model | selectedRow = name, changedFieldTemp = x }, Cmd.none )
 
                 Users ->
-                    ( { model | selectedRow = name }, Cmd.none )
+                    ( { model | selectedRow = name, changedFieldTempPass2 = "", changedFieldTempPass = "" }, Cmd.none )
 
                 None ->
                     ( model, Cmd.none )
@@ -509,7 +509,6 @@ createTableUser model lst =
                 [ td [] [ text "Username" ]
                 , td [] [ text "IsAdmin" ]
                 , td [] [ text "Password" ]
-                , td [] [ text "Password again" ]
                 , td [] [ text "Delete" ]
                 ]
             ]
@@ -527,23 +526,26 @@ createTableUser model lst =
                           else
                             td [] [ text x.username ]
                         , td [] [ text x.isAdmin ]
-                        , td
-                            [ if change.password /= change.password2 then
-                                class "invalid"
+                        , td []
+                            [ if model.selectedRow == x.username then
+                                div
+                                    [ class "row"
+                                    ]
+                                    [ div [ class "col-6" ] [ input [ value model.changedFieldTempPass, onInput (Input ChangePassInput), onFocusOut (FocusOut x.username UserCreatePass), class "form-control", placeholder (getChangedVal "password" change.password) ] [] ]
+                                    , div [ class "col-6" ]
+                                        [ input [ value model.changedFieldTempPass2, onInput (Input ChangePassInput2), onFocusOut (FocusOut x.username UserCreatePass), class "form-control", placeholder (getChangedVal "password" change.password) ] []
+                                        ]
+                                    , if model.changedFieldTempPass /= model.changedFieldTempPass2 then
+                                        div [ class "invalid", style "color" "red", style "margin-top" "0.5rem", style "margin-bottom" "0.5rem" ] [ text "Passwords must be the same" ]
+
+                                      else
+                                        div [] []
+                                    ]
 
                               else
-                                class ""
+                                div [] [ button [ class "btn btn-dark", onClick (SelectedRow x.username "") ] [ text "changePassword" ] ]
                             ]
-                            [ input [ value model.changedFieldTempPass, onInput (Input ChangePassInput), onFocusIn (SelectedRow x.username ""), onFocusOut (FocusOut x.username UserCreatePass), class "form-control", placeholder (getChangedVal "password" change.password) ] [] ]
-                        , td
-                            [ if change.password /= change.password2 then
-                                class "invalid"
-
-                              else
-                                class ""
-                            ]
-                            [ input [ value model.changedFieldTempPass2, onInput (Input ChangePassInput2), onFocusIn (SelectedRow x.username ""), onFocusOut (FocusOut x.username UserCreatePass2), class "form-control", placeholder (getChangedVal "password again" change.password2) ] [] ]
-                        , td [ class "d-flex justify-content-center", style "border-bottom-width" "0" ]
+                        , td []
                             [ button [ attribute "type" "button", class "btn-close", attribute "aria-label" "Close", onClick (DeleteFromChanges Users x.username x.isAdmin) ] []
                             ]
                         ]

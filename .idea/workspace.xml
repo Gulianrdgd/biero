@@ -7,19 +7,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="789a7fd3-0b8a-463b-af55-3da823d5846b" name="Default Changelist" comment="Fixed players no in order bug">
+    <list default="true" id="789a7fd3-0b8a-463b-af55-3da823d5846b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmi" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmi" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Main.elmo" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Main.elmo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/admin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/src/Admin.elm" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/Admin.elm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/src/Main.elm" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/Main.elm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/biero/team.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero/team.ex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/biero/user.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero/user.ex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/biero_web/channels/room_channel.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero_web/channels/room_channel.ex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/biero_web/controllers/page_controller.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero_web/controllers/page_controller.ex" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +134,8 @@
       <workItem from="1611058221792" duration="14000" />
       <workItem from="1611066179445" duration="4023000" />
       <workItem from="1611070918877" duration="5876000" />
-      <workItem from="1611076905206" duration="2458000" />
+      <workItem from="1611076905206" duration="2636000" />
+      <workItem from="1611149406075" duration="2616000" />
     </task>
     <task id="LOCAL-00001" summary="Done with teams for now, now only the users and then we can do the front end">
       <created>1609239286109</created>
@@ -200,7 +193,21 @@
       <option name="project" value="LOCAL" />
       <updated>1610998756816</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Users can now only modify users if they are superuser.&#10;Users can now update their own password.&#10;Users can now be deleted">
+      <created>1611079476599</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1611079476600</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Removed old Loggers">
+      <created>1611079527357</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1611079527357</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -216,7 +223,9 @@
     <MESSAGE value="Made the first steps for user editing and creating" />
     <MESSAGE value="Made the team table more responsive. &#10;Fixed players having spaces between bug" />
     <MESSAGE value="Fixed players no in order bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed players no in order bug" />
+    <MESSAGE value="Users can now only modify users if they are superuser.&#10;Users can now update their own password.&#10;Users can now be deleted" />
+    <MESSAGE value="Removed old Loggers" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed old Loggers" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

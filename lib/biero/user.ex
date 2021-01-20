@@ -63,10 +63,10 @@ defmodule Biero.User do
                         |> Repo.delete_all
             else
               if x["password"] == "" do
-                changeset = Users.changeset(user, %{username: x["username"], hasAdmin: isAdmin})
+                changeset = User.changeset(user, %{username: x["username"], hasAdmin: isAdmin})
                 Repo.update(changeset)
               else
-                changeset = Users.changeset(
+                changeset = User.changeset(
                   user,
                   %{username: x["username"], hasAdmin: isAdmin, password_hash: x["password"]}
                 )
@@ -85,7 +85,7 @@ defmodule Biero.User do
           us = User
                |> Ecto.Query.where(token: ^token, hasAdmin: false)
                |> Repo.one
-          if x["username"] == us.username  && x["password"] != "" do
+          if x["username"] == us.username && x["password"] != "" do
             changeset = User.changeset(
               us,
               %{password_hash: x["password"]}
