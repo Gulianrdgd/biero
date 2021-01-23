@@ -167,7 +167,7 @@ type Msg
     | DiscardChanges
     | SetChange Change
     | IsChecked
-    | FocusOut String FocusOutOperation
+    | FocusOut String FocusOutOperation String
     | Input InputOperation String
     | SelectedRow String String
     | DeleteFromChanges Selected String String
@@ -250,7 +250,7 @@ update msg model =
                 Other ->
                     ( { model | changedFieldTemp = s }, Cmd.none )
 
-        FocusOut name action ->
+        FocusOut name action isAdmin ->
             if name == "" then
                 ( model, Cmd.none )
 
@@ -261,13 +261,13 @@ update msg model =
 
                     UserCreatePass ->
                         if model.changedFieldTempPass == model.changedFieldTempPass2 then
-                            ( { model | changes = changeUser model.changes name "none" model.changedFieldTempPass model.changedFieldTempPass2 ChangePass, selectedRow = "", changedFieldTemp = "", changeNameTemp = "" }, Cmd.none )
+                            ( { model | changes = changeUser model.changes name isAdmin model.changedFieldTempPass model.changedFieldTempPass2 ChangePass, selectedRow = "", changedFieldTemp = "", changeNameTemp = "" }, Cmd.none )
 
                         else
                             ( model, Cmd.none )
 
                     UserCreate ->
-                        ( { model | changes = changeUser model.changes name "none" model.changedFieldTempPass model.changedFieldTempPass2 ChangePass, selectedRow = "", changedFieldTemp = "", changeNameTemp = "" }, Cmd.none )
+                        ( { model | changes = changeUser model.changes name isAdmin model.changedFieldTempPass model.changedFieldTempPass2 ChangePass, selectedRow = "", changedFieldTemp = "", changeNameTemp = "" }, Cmd.none )
 
                     TeamsCreate ->
                         ( { model | changes = changeTeam model.changes name NoOP model.changedFieldTemp "none" False, selectedRow = "" }, Cmd.none )
@@ -382,11 +382,11 @@ createTable model =
                                 [ h1 [ class "mb-3" ] [ text "Create a new team" ]
                                 , div [ class "form-group" ]
                                     [ label [] [ text "TeamName" ]
-                                    , input [ value model.changeNameTemp, onInput (Input CreateName), onFocusOut (FocusOut model.changeNameTemp TeamsCreate), class "form-control", placeholder "Enter team name" ] []
+                                    , input [ value model.changeNameTemp, onInput (Input CreateName), onFocusOut (FocusOut model.changeNameTemp TeamsCreate ""), class "form-control", placeholder "Enter team name" ] []
                                     ]
                                 , div [ class "form-group" ]
                                     [ label [] [ text "Players" ]
-                                    , input [ value model.changedFieldTemp, onInput (Input Other), onFocusOut (FocusOut model.changeNameTemp TeamsCreate), class "form-control", placeholder "players" ] []
+                                    , input [ value model.changedFieldTemp, onInput (Input Other), onFocusOut (FocusOut model.changeNameTemp TeamsCreate ""), class "form-control", placeholder "players" ] []
                                     , small [ class "form-text text-muted" ] [ text "Please enter names with comma separation" ]
                                     ]
                                 , button [ class "btn btn-primary mb-auto", onClick (SendChanges model.changes) ] [ text "Submit" ]
@@ -531,9 +531,9 @@ createTableUser model lst =
                                 div
                                     [ class "row"
                                     ]
-                                    [ div [ class "col-6" ] [ input [ value model.changedFieldTempPass, onInput (Input ChangePassInput), onFocusOut (FocusOut x.username UserCreatePass), class "form-control", placeholder (getChangedVal "password" change.password) ] [] ]
+                                    [ div [ class "col-6" ] [ input [ value model.changedFieldTempPass, onInput (Input ChangePassInput), onFocusOut (FocusOut x.username UserCreatePass x.isAdmin), class "form-control", placeholder (getChangedVal "password" change.password) ] [] ]
                                     , div [ class "col-6" ]
-                                        [ input [ value model.changedFieldTempPass2, onInput (Input ChangePassInput2), onFocusOut (FocusOut x.username UserCreatePass), class "form-control", placeholder (getChangedVal "password" change.password) ] []
+                                        [ input [ value model.changedFieldTempPass2, onInput (Input ChangePassInput2), onFocusOut (FocusOut x.username UserCreatePass x.isAdmin), class "form-control", placeholder (getChangedVal "password" change.password) ] []
                                         ]
                                     , if model.changedFieldTempPass /= model.changedFieldTempPass2 then
                                         div [ class "invalid", style "color" "red", style "margin-top" "0.5rem", style "margin-bottom" "0.5rem" ] [ text "Passwords must be the same" ]
@@ -582,7 +582,7 @@ createTableTeams model lst =
                             td [] [ text x.name ]
                         , td []
                             [ if model.selectedRow == x.name then
-                                input [ value model.changedFieldTemp, onInput (Input Other), onFocusOut (FocusOut x.name TeamsEdit) ] []
+                                input [ value model.changedFieldTemp, onInput (Input Other), onFocusOut (FocusOut x.name TeamsEdit "") ] []
 
                               else
                                 p [ onClick (SelectedRow x.name x.users) ]

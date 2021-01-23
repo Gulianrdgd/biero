@@ -7,11 +7,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="789a7fd3-0b8a-463b-af55-3da823d5846b" name="Default Changelist" comment="">
+    <list default="true" id="789a7fd3-0b8a-463b-af55-3da823d5846b" name="Default Changelist" comment="User password changing is now implemented correctly">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmi" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmi" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/src/Admin.elm" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/Admin.elm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/biero/user.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/biero/user.ex" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +55,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/elm.json" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../portfolio" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="org.elm.workspace.PROJECT_DISCOVERY" value="true" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -135,7 +136,13 @@
       <workItem from="1611066179445" duration="4023000" />
       <workItem from="1611070918877" duration="5876000" />
       <workItem from="1611076905206" duration="2636000" />
-      <workItem from="1611149406075" duration="2616000" />
+      <workItem from="1611149406075" duration="2738000" />
+      <workItem from="1611255277475" duration="600000" />
+      <workItem from="1611327062621" duration="426000" />
+      <workItem from="1611330652164" duration="657000" />
+      <workItem from="1611427959675" duration="11000" />
+      <workItem from="1611427990343" duration="1436000" />
+      <workItem from="1611435408050" duration="377000" />
     </task>
     <task id="LOCAL-00001" summary="Done with teams for now, now only the users and then we can do the front end">
       <created>1609239286109</created>
@@ -207,7 +214,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611079527357</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="User password changing is now implemented correctly">
+      <created>1611152555900</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1611152555900</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -225,7 +239,8 @@
     <MESSAGE value="Fixed players no in order bug" />
     <MESSAGE value="Users can now only modify users if they are superuser.&#10;Users can now update their own password.&#10;Users can now be deleted" />
     <MESSAGE value="Removed old Loggers" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed old Loggers" />
+    <MESSAGE value="User password changing is now implemented correctly" />
+    <option name="LAST_COMMIT_MESSAGE" value="User password changing is now implemented correctly" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
