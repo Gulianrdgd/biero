@@ -96,7 +96,8 @@ $theme-colors: (
 }
 
 .player{
-  width: 5%;
+  width: 7%;
+  transform: translateY(-50%) translateX(-50%);
 }
 
 /* Alerts and form errors */

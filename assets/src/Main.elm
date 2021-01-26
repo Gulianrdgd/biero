@@ -93,7 +93,7 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div [ class "container-fluid", style "padding-left" "0", style "padding-right" "0" ]
+    div [ class "container-fluid", style "padding-left" "0", style "padding-right" "0", style "background" "#e62272" ]
         [ div [ class "row no-gutters", style "height" "100vh" ]
             [ div [ class "col-12 col-xs-8 col-md-8 col-lg-8 col-xl-10" ]
                 [ case model.tableData of
@@ -108,8 +108,7 @@ view model =
                         case head x of
                             Just z ->
                                 div [ style "display" "block" ]
-                                    [ img [ src "/images/world.svg", style "position" "absolute", style "height" "100vh", style "width" "100%", attribute "draggable" "false", alt "map of the world" ] []
-                                    , img [ id "biero", src "/images/biero.svg", style "position" "absolute", style "height" "100vh", style "width" "100%", attribute "draggable" "false", alt "map of the biero" ] []
+                                    [ img [ src "/images/bierov3.svg", style "position" "absolute", style "height" "100vh", style "width" "100%", attribute "draggable" "false", alt "map of the biero" ] []
                                     , map
                                         (\team ->
                                             teamPerson team.cssColor team.posLeft team.posTop

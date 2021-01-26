@@ -7,12 +7,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="789a7fd3-0b8a-463b-af55-3da823d5846b" name="Default Changelist" comment="User password changing is now implemented correctly">
+    <list default="true" id="789a7fd3-0b8a-463b-af55-3da823d5846b" name="Default Changelist" comment="Fixed bug where super user loses super user rights when changing password">
+      <change afterPath="$PROJECT_DIR$/assets/static/images/biero2.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmi" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmi" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Admin.elmo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Main.elmo" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/Main.elmo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" beforeDir="false" afterPath="$PROJECT_DIR$/assets/elm-stuff/0.19.1/d.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/src/Admin.elm" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/Admin.elm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/src/Main.elm" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/Main.elm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/static/images/biero.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/static/images/biero.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/static/images/biero.svg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/static/images/biero.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/static/images/world.svg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +147,12 @@
       <workItem from="1611330652164" duration="657000" />
       <workItem from="1611427959675" duration="11000" />
       <workItem from="1611427990343" duration="1436000" />
-      <workItem from="1611435408050" duration="377000" />
+      <workItem from="1611435408050" duration="1508000" />
+      <workItem from="1611493350915" duration="655000" />
+      <workItem from="1611495851890" duration="112000" />
+      <workItem from="1611497652890" duration="1456000" />
+      <workItem from="1611578993824" duration="11000" />
+      <workItem from="1611678067312" duration="405000" />
     </task>
     <task id="LOCAL-00001" summary="Done with teams for now, now only the users and then we can do the front end">
       <created>1609239286109</created>
@@ -221,7 +231,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611152555900</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Fixed bug where super user loses super user rights when changing password">
+      <created>1611435826988</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1611435826988</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -240,7 +257,8 @@
     <MESSAGE value="Users can now only modify users if they are superuser.&#10;Users can now update their own password.&#10;Users can now be deleted" />
     <MESSAGE value="Removed old Loggers" />
     <MESSAGE value="User password changing is now implemented correctly" />
-    <option name="LAST_COMMIT_MESSAGE" value="User password changing is now implemented correctly" />
+    <MESSAGE value="Fixed bug where super user loses super user rights when changing password" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed bug where super user loses super user rights when changing password" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
