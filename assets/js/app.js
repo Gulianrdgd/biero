@@ -41,7 +41,7 @@ function toStringFunc(table, type){
     let etappe = -1;
     // Bootstrap col spacing
     let windowWidth;
-    if(window.innerWidth < 576){ // SMOL
+    if(window.innerWidth < 768){ // SMOL
         windowWidth = window.innerWidth;
     }else if(window.innerWidth >= 1200){ // XL
         windowWidth = window.innerWidth * (1/12*10);

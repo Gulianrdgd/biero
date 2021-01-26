@@ -107,8 +107,8 @@ view model =
                     x ->
                         case head x of
                             Just z ->
-                                div [ style "display" "block" ]
-                                    [ img [ src "/images/bierov3.svg", style "position" "absolute", style "height" "100vh", style "width" "100%", attribute "draggable" "false", alt "map of the biero" ] []
+                                div [ style "display" "flex" ]
+                                    [ img [ src "/images/biero.png", style "margin" "auto", style "max-height" "1920", style "width" "100%", style "height" "auto", attribute "draggable" "false", alt "map of the biero" ] []
                                     , map
                                         (\team ->
                                             teamPerson team.cssColor team.posLeft team.posTop
