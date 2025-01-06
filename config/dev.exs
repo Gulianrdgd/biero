@@ -2,9 +2,9 @@ use Mix.Config
 
 # Configure your database
 config :biero, Biero.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "biero_dev",
+  username: "Biero",
+  password: "Yk42WV5JoWWYJvOSBphtG29p7JfZMTpR",
+  database: "biero_prod",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10

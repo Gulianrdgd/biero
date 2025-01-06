@@ -1,5 +1,5 @@
 /* This file is for your main application css. */
-//@import "./phoenix.css";
+/* @import "./phoenix.css"; */
 
 $footer-padding: 1rem 1.5rem 1rem;
 

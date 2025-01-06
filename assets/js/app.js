@@ -9,7 +9,7 @@ let channel = socket.channel('biero:front');
 socket.connect();
 channel.join();
 
-const etappePos = [[280, 250], [150, 585], [240, 890], [660, 660], [1020, 855], [717, 300], [1071, 334], [1251, 600], [1335, 300], [1690, 220], [1660, 530], [1630, 840], [1320, 1000]];
+const etappePos = [[331, 246], [267, 573], [487, 887], [902, 647], [693, 378], [1009, 178], [1604, 246], [1275, 491], [1590, 783], [1129, 903]];
 const IMAGESIZE = [1920,1080];
 const regeneratorRuntime = require("regenerator-runtime");
 

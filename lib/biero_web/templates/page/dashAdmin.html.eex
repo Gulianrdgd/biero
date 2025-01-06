@@ -5,4 +5,4 @@
 <div class="noselect">
     <div id="elm-admin"></div>
 </div>
-<script type="text/javascript" src="<%= Routes.static_url(@conn, "/js/admin.js") %>"></script>
+<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/admin.js") %>"></script>

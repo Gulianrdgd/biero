@@ -107,7 +107,7 @@ view model =
                     x ->
                         case head x of
                             Just z ->
-                                div [ style "display" "flex" ]
+                                div [ style "display" "flex", style "width" "100%", style "height" "100vh"]
                                     [ img [ src "/images/biero.png", style "margin" "auto", style "max-height" "1920", style "width" "100%", style "height" "auto", attribute "draggable" "false", alt "map of the biero" ] []
                                     , map
                                         (\team ->
@@ -115,7 +115,6 @@ view model =
                                         )
                                         model.tableData
                                         |> div []
-                                    , div [ style "width" "100%", style "height" "100vh" ] []
                                     ]
 
                             _ ->
